@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:start": "pscale shell swoleproddb main",
-    "start:dev": "nodemon index.ts"
+    "db:migrate": "npx prisma db push --schema=./models/schema.prisma",
+    "start:dev": "nodemon index.ts",
+    "prisma:import": "npx prisma-import --force"
   },
   "repository": {
     "type": "git",
@@ -26,9 +28,17 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.0.3"
   },
+  "prisma": {
+    "import": {
+      "output": "./models/schema.prisma",
+      "schemas": "./models/***/*.prisma",
+      "exclude": ["./models/schema.prisma"]
+    }
+  },
   "dependencies": {
     "@prisma/client": "^4.12.0",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "prisma-import": "^1.0.4"
   }
 }
