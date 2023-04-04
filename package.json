@@ -1,0 +1,30 @@
+{
+  "name": "swoleapiv2",
+  "version": "1.0.0",
+  "description": "## GET SWOLE!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:start": "pscale shell swoleproddb main",
+    "start:dev": "npx ts-node index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesFTW/swoleapiv2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JamesFTW/swoleapiv2/issues"
+  },
+  "homepage": "https://github.com/JamesFTW/swoleapiv2#readme",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "prisma": "^4.12.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.12.0"
+  }
+}
