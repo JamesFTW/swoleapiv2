@@ -20,7 +20,7 @@ datasource db {
 }
 
 //
-// post.prisma
+// Post.prisma
 //
 
 model Post {
@@ -35,7 +35,7 @@ model Post {
 }
 
 //
-// profile.prisma
+// Profile.prisma
 //
 
 model Profile {
@@ -46,7 +46,7 @@ model Profile {
 }
 
 //
-// user.prisma
+// User.prisma
 //
 
 model User {
