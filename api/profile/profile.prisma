@@ -1,4 +1,4 @@
-import { User } from "../User/User"
+import { User } from "../user/user"
 
 model Profile {
   id     Int     @id @default(autoincrement())

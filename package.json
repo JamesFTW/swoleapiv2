@@ -30,9 +30,9 @@
   },
   "prisma": {
     "import": {
-      "output": "./models/schema.prisma",
-      "schemas": "./models/***/*.prisma",
-      "exclude": ["./models/schema.prisma"]
+      "output": "./api/schema.prisma",
+      "schemas": "./api/**/{*,.*}/*.prisma",
+      "exclude": ["./api/schema.prisma"]
     }
   },
   "dependencies": {
