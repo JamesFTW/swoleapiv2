@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:start": "pscale shell swoleproddb main",
-    "db:migrate": "npx prisma db push --schema=./models/schema.prisma",
+    "db:migrate": "npx prisma db push --schema=./api/schema.prisma",
     "start:dev": "nodemon index.ts",
     "prisma:import": "npx prisma-import --force"
   },
