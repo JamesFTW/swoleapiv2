@@ -20,39 +20,15 @@ datasource db {
 }
 
 //
-// Post.prisma
-//
-
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-//
-// Profile.prisma
-//
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
-//
 // User.prisma
 //
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  profile_photo String?
+  bio           String?
+  user_id       Int      @id @unique @default(autoincrement())
+  user_name     String   @unique
+  email         String   @unique
+  password      String   @db.VarChar(60)
+  created_at    DateTime @db.Timestamp(3)
 }
