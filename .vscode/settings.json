@@ -1,7 +1,0 @@
-{
-    "workbench.colorTheme": "Noctis",
-    "workbench.productIconTheme": "bootstrap-product-icons",
-    "workbench.iconTheme": "vscode-icons",
-    "editor.tabSize": 2,
-    "prisma.fileWatcher": true,
-}
