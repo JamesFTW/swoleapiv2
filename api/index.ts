@@ -1,7 +1,7 @@
 import express from 'express'
-import userEndpoints from './users/endpoints'
+import usersEndpoints from './users/endpoints'
 
 const router  = express.Router()
-router.use('/user', userEndpoints)
+router.use('/users', usersEndpoints)
 
 export default router
