@@ -20,18 +20,32 @@ datasource db {
 }
 
 //
-// User.prisma
+// Exercises.prisma
+//
+
+model Exercises {
+  exerciseId       Int      @id @unique @default(autoincrement())
+  createdAt        DateTime @default(now()) @db.Timestamp(6)
+  updatedAt        DateTime @updatedAt
+  exerciseName     String
+  targetMuscle     String
+  secondaryMuscles Json?
+  video            String
+}
+
+//
+// Users.prisma
 //
 
 model Users {
-  profile_photo String?
-  bio           String?
-  firstName     String
-  lastName      String
-  userId        Int      @id @unique @default(autoincrement())
-  userName      String   @unique
-  email         String   @unique
-  password      String   @db.VarChar(60)
-  createdAt     DateTime @default(now()) @db.Timestamp(6)
-  updatedAt     DateTime @updatedAt
+  profilePhoto String?
+  bio          String?
+  firstName    String?
+  lastName     String?
+  userId       Int      @id @unique @default(autoincrement())
+  userName     String   @unique
+  email        String   @unique
+  password     String   @db.VarChar(60)
+  createdAt    DateTime @default(now()) @db.Timestamp(6)
+  updatedAt    DateTime @updatedAt
 }

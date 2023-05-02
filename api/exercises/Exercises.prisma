@@ -1,0 +1,9 @@
+model Exercises {
+  exerciseId Int @id @unique @default(autoincrement())
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt DateTime  @updatedAt
+  exerciseName String
+  targetMuscle String
+  secondaryMuscles Json?
+  video String
+}
