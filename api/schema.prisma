@@ -23,12 +23,15 @@ datasource db {
 // User.prisma
 //
 
-model User {
+model Users {
   profile_photo String?
   bio           String?
-  user_id       Int      @id @unique @default(autoincrement())
-  user_name     String   @unique
+  firstName     String
+  lastName      String
+  userId        Int      @id @unique @default(autoincrement())
+  userName      String   @unique
   email         String   @unique
   password      String   @db.VarChar(60)
-  created_at    DateTime @db.Timestamp(3)
+  createdAt     DateTime @default(now()) @db.Timestamp(6)
+  updatedAt     DateTime @updatedAt
 }
