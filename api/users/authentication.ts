@@ -6,17 +6,17 @@ import { Users } from './models';
 declare global {
   namespace Express {
     interface User {
-      id: string,
-      username: string
+      userId: string,
+      userName: string
     }
   }
 }
 
-passport.use(new LocalStrategy(async (username: string, password: string, cb: Function) => {
+passport.use(new LocalStrategy(async (userName: string, password: string, cb: Function) => {
   const users = new Users();
 
   try {
-    const user = await users.getByUserName(username)
+    const user = await users.getByUserName(userName)
 
     if (!user) {
       return cb(null, false, { message: 'Incorrect username or password.' });
@@ -42,7 +42,7 @@ passport.use(new LocalStrategy(async (username: string, password: string, cb: Fu
 
 passport.serializeUser((user, cb) => {
   process.nextTick(function() {
-    cb(null, { id: user.id, username: user.username });
+    cb(null, { userId: user.userId, userName: user.userName });
   });
 });
 
