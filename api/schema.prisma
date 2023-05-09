@@ -40,7 +40,8 @@ model Users {
   bio          String?
   firstName    String?
   lastName     String?
-  userId       Int      @id @unique @default(autoincrement())
+  salt         String
+  userId       String   @id @unique @default(uuid())
   userName     String   @unique
   email        String   @unique
   password     String   @db.VarChar(60)

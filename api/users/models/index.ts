@@ -16,6 +16,7 @@ export class Users  {
     lastName: string,
     email: string,
     password: string,
+    salt: string,
   ) {
       try {
         await prisma.users.create({
