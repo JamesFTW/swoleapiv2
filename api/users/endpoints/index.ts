@@ -1,22 +1,23 @@
+import bcrypt                         from 'bcrypt';
 import express, { Request, Response } from 'express'
-import bcrypt from 'bcrypt';
-import { createUser } from '../services'
-import { UserPayload } from '../models'
-import passport from '../authentication';
+import { UsersServices }              from '../services'
+import { UserPayload }                from '../models'
+import passport                       from '../authentication';
 
 const router  = express.Router()
 
 router.post('/signup', async (req: Request, res: Response, next) => {
   const userPayload: UserPayload = req.body
-  const salt = await bcrypt.genSalt(16)
+  const salt: string = await bcrypt.genSalt(16)
 
   bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
     if (err) { return next(err) }
     try {
       if (req.body) {
+        const usersServices = new UsersServices()
         req.body.password = hashedPassword
 
-        createUser(userPayload, salt)
+        usersServices.createUser(userPayload, salt)
 
         res.sendStatus(200)
         res.end()
@@ -28,6 +29,7 @@ router.post('/signup', async (req: Request, res: Response, next) => {
       })
     }
   })
+
 })
 
 router.get('/', (req: Request, res: Response) => {
