@@ -1,5 +1,14 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Users as PrismaUsers } from '@prisma/client'
 const prisma = new PrismaClient()
+
+declare global {
+  namespace Express {
+    interface User {
+      userId: string,
+      userName: string,
+    }
+  }
+}
 
 export interface UserPayload {
   userName: string
@@ -17,7 +26,7 @@ export class Users  {
     email: string,
     password: string,
     salt: string,
-  ) {
+  ): Promise<void> {
       try {
         await prisma.users.create({
           data: {
@@ -29,36 +38,42 @@ export class Users  {
             salt
           }
         })
-    } catch (e) {
-      console.log(e)
+    } catch (error) {
+      throw new Error(
+        `An error occurred while creating a new user: ${(error as Error).message}`
+      )
     }
   }
 
-  async getByUserName(userName: string) {
+  async getByUserName(userName: string): Promise<PrismaUsers | null> {
     try {
       const user = await prisma.users.findUnique({
         where: {
           userName: userName
         }
       })
-
       return user
-    } catch (e) {
-      console.log(e)
+
+    } catch (error) {
+      throw new Error(
+        `An error occurred while fetching the userName: ${(error as Error).message}`
+      )
     }
   }
 
-  async getByUserid(userId: string) {
+  async getByUserid(userId: string): Promise<PrismaUsers | null> {
     try {
       const user = await prisma.users.findUnique({
         where: {
           userId: userId
         }
       })
-
       return user
-    } catch (e) {
-      console.log(e)
+
+    } catch (error) {
+      throw new Error(
+        `An error occurred while fetching the userid: ${(error as Error).message}`
+      )
     }
   }
 }
