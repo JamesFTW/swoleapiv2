@@ -1,4 +1,4 @@
-import { PrismaClient, Users as PrismaUsers } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 declare global {
@@ -16,6 +16,20 @@ export interface UserPayload {
   lastName: string
   email: string
   password: string
+}
+
+export type User = {
+  profilePhoto: string | null
+  bio: string | null
+  firstName: string | null
+  lastName: string | null
+  salt: string
+  userId: string
+  userName: string
+  email: string
+  password: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 export class Users  {
@@ -45,7 +59,7 @@ export class Users  {
     }
   }
 
-  async getByUserName(userName: string): Promise<PrismaUsers | null> {
+  async getByUserName(userName: string): Promise<User | null> {
     try {
       const user = await prisma.users.findUnique({
         where: {
@@ -61,7 +75,7 @@ export class Users  {
     }
   }
 
-  async getByUserid(userId: string): Promise<PrismaUsers | null> {
+  async getByUserid(userId: string): Promise<User | null> {
     try {
       const user = await prisma.users.findUnique({
         where: {

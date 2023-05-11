@@ -1,5 +1,4 @@
-import type { Users as PrismaUsers } from '@prisma/client'
-import { Users, UserPayload } from '../models'
+import { Users, User, UserPayload } from '../models'
 
 export class UsersServices {
   private users: Users | null;
@@ -22,7 +21,7 @@ export class UsersServices {
     )
   }
 
-  async getByUserName(userName: string): Promise<PrismaUsers | null | undefined> {
+  async getByUserName(userName: string): Promise<User | null | undefined> {
     return this.users?.getByUserName(userName)
   }
 }
