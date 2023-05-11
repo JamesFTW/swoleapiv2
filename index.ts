@@ -33,9 +33,9 @@ app.use(passport.session());
 app.use(passport.authenticate('session'));
 app.use(helmet())
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+// });
 
 app.use('/api', api)
 
