@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "## GET SWOLE!",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:start": "pscale shell swoleproddb main",
     "db:migrate": "npx prisma db push --schema=./api/schema.prisma",
     "start:dev": "nodemon index.ts",
-    "prisma:import": "npx prisma-import --force"
+    "prisma:import": "npx prisma-import --force",
+    "start": "npx index.ts"
   },
   "repository": {
     "type": "git",

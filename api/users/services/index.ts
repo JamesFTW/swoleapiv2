@@ -1,4 +1,4 @@
-import { User as PrismaUsers } from '@prisma/client'
+import { Users as PrismaUsers } from '@prisma/client'
 import { Users, UserPayload } from '../models'
 
 export class UsersServices {
