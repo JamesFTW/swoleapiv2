@@ -6,6 +6,25 @@ import passport                       from '../authentication';
 
 const router  = express.Router()
 
+router.get('/', (req: Request, res: Response) => {
+  try {
+    req.isAuthenticated()
+      ? res.sendStatus(200)
+      : res.sendStatus(403)
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong when getting user profile.",
+      error: error
+    })
+  }
+})
+
+router.get('/login/success', (req: Request, res: Response) => {
+  if (req.isAuthenticated()) {
+    res.sendStatus(200)
+  }
+})
+
 router.post('/signup', async (req: Request, res: Response, next) => {
   const userPayload: UserPayload = req.body
   const salt: string = await bcrypt.genSalt(16)
@@ -22,32 +41,32 @@ router.post('/signup', async (req: Request, res: Response, next) => {
         res.sendStatus(200)
         res.end()
       }
-    } catch (e) {
+    } catch (error) {
       res.status(500).json({
         message: "Something went wrong creating a new user.",
-        error: e
+        error: error
       })
     }
   })
-
-})
-
-router.get('/', (req: Request, res: Response) => {
-  //figure out how I want to handle succesful login
-  res.sendStatus(200)
-})
-
-router.get('/login', (req: Request, res: Response) => {
-  //figure out how I want to handle failed login
-  res.sendStatus(200)
 })
 
 router.post('/login/password', passport.authenticate('local', { 
-    successReturnToOrRedirect: '/api/users/',
-    failureRedirect: '/api/users/login', 
+    successReturnToOrRedirect: '/api/users/login/success',
+    failureRedirect: '/api/users/login/failed',
     failureMessage: true 
   })
-);
+)
 
+router.post('/logout', (req: Request, res: Response) => {
+  req.logout((error) => {
+    if (error) {
+      res.status(500).json({
+        message: "Something went wrong when logging out.",
+        error: error
+      })
+    }
+    res.sendStatus(204)
+  })
+})
 
 export default router
