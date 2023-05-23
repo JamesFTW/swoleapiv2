@@ -1,8 +1,8 @@
-import bcrypt                         from 'bcrypt';
+import bcrypt                         from 'bcrypt'
 import express, { Request, Response } from 'express'
 import { UsersServices }              from '../services'
 import { UserPayload }                from '../models'
-import passport                       from '../authentication';
+import passport                       from '../authentication'
 
 const router  = express.Router()
 
