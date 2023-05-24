@@ -25,6 +25,11 @@ router.get('/login/success', (req: Request, res: Response) => {
   }
 })
 
+router.get('/test', (req: Request, res: Response) => {
+  res.status(200).json({ username: 'Flavio', status: 200 })
+  // res.sendStatus(200)
+})
+
 router.post('/signup', async (req: Request, res: Response, next) => {
   const userPayload: UserPayload = req.body
   const salt: string = await bcrypt.genSalt(16)
