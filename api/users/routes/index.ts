@@ -32,9 +32,13 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 router.get('/login/success', (req: Request, res: Response) => {
-  console.log(req)
+  const { session, sessionID} = req
+
   if (req.isAuthenticated()) {
-    res.status(200).json(req.user)
+    res.status(200).json({
+      session,
+      sessionID,
+    })
   }
 })
 
