@@ -32,9 +32,9 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 router.get('/login/success', (req: Request, res: Response) => {
-  if (req.isAuthenticated()) {
+  // if (req.isAuthenticated()) {
     res.status(200).json(req.user)
-  }
+  // }
 })
 
 router.get('/login/failed', (req: Request, res: Response) => {
