@@ -5,6 +5,7 @@ import passport from 'passport'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import mysql from 'mysql2'
+import cors from 'cors'
 import api from './api'
 
 dotenv.config()
@@ -16,6 +17,7 @@ const sessionStore = new MySQLStore({}, connection);
 const app: Express = express()
 const port = process.env.PORT
 
+app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 app.use(session({
