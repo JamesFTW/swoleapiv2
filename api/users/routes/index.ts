@@ -21,7 +21,7 @@ const { body } = new ExpressValidator({
 router.get('/', (req: Request, res: Response) => {
   try {
     req.isAuthenticated()
-      ? res.sendStatus(200)
+      ? res.sendStatus(404)
       : res.sendStatus(403)
   } catch (error) {
     res.status(500).json({
