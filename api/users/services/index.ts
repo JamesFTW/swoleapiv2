@@ -1,3 +1,4 @@
+import { ExpressValidator }         from 'express-validator'
 import { Users, User, UserPayload } from '../models'
 
 export class UsersServices {
@@ -20,8 +21,23 @@ export class UsersServices {
       salt
     )
   }
-
+  // async isValidEmail(): Promise<User | null | undefined| boolean> {
+  //   const { body } = new ExpressValidator({
+  //     isEmailNotInUse: async (value: string) => {
+  //       const usersServices = new UsersServices()
+  //       const user = await usersServices.getByEmail(value)
+    
+  //       if (user) {
+  //         throw new Error('E-mail already in use');
+  //       }
+  //     },
+  //   })
+  // }
   async getByUserName(userName: string): Promise<User | null | undefined> {
     return this.users?.getByUserName(userName)
+  }
+
+  async getByEmail(email: string): Promise<User | null | undefined> {
+    return this.users?.getByEmail(email)
   }
 }

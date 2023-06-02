@@ -90,4 +90,20 @@ export class Users  {
       )
     }
   }
+
+  async getByEmail(email: string): Promise<User | null> {
+    try {
+      const user = await prisma.users.findUnique({
+        where: {
+          email: email
+        }
+      })
+      return user
+
+    } catch (error) {
+      throw new Error(
+        `An error occurred while fetching the userid: ${(error as Error).message}`
+      )
+    }
+  }
 }
