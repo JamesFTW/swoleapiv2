@@ -2,21 +2,12 @@ import bcrypt                         from 'bcrypt'
 import express, { Request, Response } from 'express'
 import { UsersServices }              from '../services'
 import { UserPayload }                from '../models'
-import { ExpressValidator }           from 'express-validator'
 import passport                       from '../authentication'
+import { validationResult } from 'express-validator'
 
 const router  = express.Router()
+const usersServices = new UsersServices()
 
-const { body } = new ExpressValidator({
-  isEmailNotInUse: async (value: string) => {
-    const usersServices = new UsersServices()
-    const user = await usersServices.getByEmail(value)
-
-    if (user) {
-      throw new Error('E-mail already in use');
-    }
-  },
-})
 
 router.get('/', (req: Request, res: Response) => {
   try {
@@ -32,7 +23,7 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 router.get('/login/success', (req: Request, res: Response) => {
-  const { session, sessionID} = req
+  const { session, sessionID } = req
 
   if (req.isAuthenticated()) {
     res.status(200).json({
@@ -48,29 +39,38 @@ router.get('/login/failed', (req: Request, res: Response) => {
   })
 })
 
-router.post('/signup', async (req: Request, res: Response, next) => {
-  const userPayload: UserPayload = req.body
-  const salt: string = await bcrypt.genSalt(16)
+router.post('/signup',
+  usersServices.createEmailChain(),
+  usersServices.createUserChain(),
+  usersServices.createUserPasswordChain(),
+    async (
+      req: Request,
+      res: Response,
+      next
+    ) => {
 
-  bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
-    if (err) { return next(err) }
-    try {
-      if (req.body) {
+    const userPayload: UserPayload = req.body
+    const salt: string = await bcrypt.genSalt(16)
 
-        const usersServices = new UsersServices()
+    bcrypt.hash(req.body.password, salt, async (err, hashedPassword) => {
+      if (err) { return next(err) }
+      try {
+        if (req.body) {
+          req.body.password = hashedPassword
 
-        req.body.password = hashedPassword
-        usersServices.createUser(userPayload, salt)
-        res.sendStatus(200)
-        res.end()
+          await usersServices.createUser(userPayload, salt)
+      
+          res.sendStatus(200)
+          res.end()
+        }
+      } catch (error) {
+        res.status(500).json({
+          message: "Something went wrong creating a new user.",
+          errors: error,
+          validationResult: validationResult(req)
+        })
       }
-    } catch (error) {
-      res.status(500).json({
-        message: "Something went wrong creating a new user.",
-        error: error
-      })
-    }
-  })
+    })
 })
 
 router.post('/login/password', passport.authenticate('local', { 
