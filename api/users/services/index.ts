@@ -7,20 +7,37 @@ export class UsersServices {
   constructor() {
     this.users = new Users()
   }
+  
+  createEmailChain = () => {
+    return body('email').isEmail()
+      .custom(async email => {
+        const user = this.getByEmail(email)
+
+        if (Object.keys(user).length === 0) {
+          throw new Error('E-mail already in use')
+        }
+    })
+  }
 
   async createUser(params: UserPayload, salt: string): Promise<void> {
     /**
      * Add field validation here
      */
-    this.users?.create(
-      params.userName,
-      params.firstName,
-      params.lastName,
-      params.email,
-      params.password,
-      salt
-    )
+
+    try {
+     await this.users?.create(
+        params.userName,
+        params.firstName,
+        params.lastName,
+        params.email,
+        params.password,
+        salt
+      )
+    } catch(error) {
+      return Promise.reject(error)
+    }
   }
+
   // async isValidEmail(): Promise<User | null | undefined| boolean> {
   //   const { body } = new ExpressValidator({
   //     isEmailNotInUse: async (value: string) => {

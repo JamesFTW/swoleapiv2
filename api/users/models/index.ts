@@ -53,9 +53,7 @@ export class Users  {
           }
         })
     } catch (error) {
-      throw new Error(
-        `An error occurred while creating a new user: ${(error as Error).message}`
-      )
+      return Promise.reject(error)
     }
   }
 
