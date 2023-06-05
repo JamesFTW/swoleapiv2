@@ -13,9 +13,8 @@ export class UsersServices {
       .custom(async email => {
 
         const user = await this.getByEmail(email)
-        const userData = await user
 
-        if (userData !== null) {
+        if (user !== null) {
           throw new Error('E-mail already in use')
         }
     })
@@ -26,9 +25,8 @@ export class UsersServices {
       .custom(async userName => {
 
         const user = await this.getByUserName(userName)
-        const userData = await user
 
-        if (userData !== null) {
+        if (user !== null) {
           throw new Error('Username already in use')
         }
       })
