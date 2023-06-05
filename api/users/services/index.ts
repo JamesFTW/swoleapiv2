@@ -1,4 +1,4 @@
-import { body }   from 'express-validator'
+import { ValidationChain, body }   from 'express-validator'
 import { Users, User, UserPayload } from '../models'
 
 export class UsersServices {
@@ -8,7 +8,7 @@ export class UsersServices {
     this.users = new Users()
   }
 
-  createEmailChain = () => {
+  createEmailChain = (): ValidationChain => {
     return body('email').isEmail()
       .custom(async email => {
 
@@ -20,7 +20,7 @@ export class UsersServices {
     })
   }
 
-  createUserChain = () => {
+  createUserChain = (): ValidationChain => {
     return body('userName')
       .custom(async userName => {
 
@@ -32,7 +32,7 @@ export class UsersServices {
       })
   }
 
-  createUserPasswordChain = () => {
+  createUserPasswordChain = (): ValidationChain => {
     return body('password').isStrongPassword({
       minLength: 8,
       minLowercase: 1,
