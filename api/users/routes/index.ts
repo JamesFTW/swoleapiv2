@@ -3,11 +3,10 @@ import express, { Request, Response } from 'express'
 import { UsersServices }              from '../services'
 import { UserPayload }                from '../models'
 import passport                       from '../authentication'
-import { validationResult } from 'express-validator'
+import { validationResult }           from 'express-validator'
 
 const router  = express.Router()
 const usersServices = new UsersServices()
-
 
 router.get('/', (req: Request, res: Response) => {
   try {
@@ -20,23 +19,6 @@ router.get('/', (req: Request, res: Response) => {
       error: error
     })
   }
-})
-
-router.get('/login/success', (req: Request, res: Response) => {
-  const { session, sessionID } = req
-
-  if (req.isAuthenticated()) {
-    res.status(200).json({
-      session,
-      sessionID,
-    })
-  }
-})
-
-router.get('/login/failed', (req: Request, res: Response) => {
-  res.status(500).json({
-    message: "Username or Password is invalid"
-  })
 })
 
 router.post('/signup',
@@ -73,12 +55,29 @@ router.post('/signup',
     })
 })
 
-router.post('/login/password', passport.authenticate('local', { 
+router.post('/login', passport.authenticate('local', {
     successReturnToOrRedirect: '/api/users/login/success',
     failureRedirect: '/api/users/login/failed',
     failureMessage: true 
   })
 )
+
+router.get('/login/success', (req: Request, res: Response) => {
+  const { session, sessionID } = req
+
+  if (req.isAuthenticated()) {
+    res.status(200).json({
+      session,
+      sessionID,
+    })
+  }
+})
+
+router.get('/login/failed', (req: Request, res: Response) => {
+  res.status(500).json({
+    message: "Username or Password is invalid"
+  })
+})
 
 router.post('/logout', (req: Request, res: Response) => {
   req.logout((error) => {
