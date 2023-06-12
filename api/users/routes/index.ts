@@ -10,9 +10,14 @@ const usersServices = new UsersServices()
 
 router.get('/', (req: Request, res: Response) => {
   try {
-    req.isAuthenticated()
-      ? res.sendStatus(200)
-      : res.sendStatus(403)
+    if (req.isAuthenticated()) {
+      const { passport } = req.session
+
+      res.status(200).json({ passport })
+    } else {
+      res.sendStatus(403)
+    }
+
   } catch (error) {
     res.status(500).json({
       message: "Something went wrong when getting user profile.",
