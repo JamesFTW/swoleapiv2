@@ -67,6 +67,22 @@ router.post('/login', passport.authenticate('local', {
   })
 )
 
+/**
+ * Profile info and workouts can be in a session.
+ */
+router.get('/profile', async (req: Request, res: Response) => {
+  if (req.isAuthenticated()) {
+    const { session } = req
+    const userInfo = await usersServices.getByUserId(session.passport?.user?.userId)
+
+    if (req.isAuthenticated()) {
+      res.status(200).json({
+        userInfo
+      })
+    }
+  }
+})
+
 router.get('/login/success', (req: Request, res: Response) => {
   const { session, sessionID } = req
 

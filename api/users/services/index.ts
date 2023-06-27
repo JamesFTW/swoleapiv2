@@ -79,4 +79,19 @@ export class UsersServices {
       return Promise.reject(error)
     }
   }
+  
+  async getByUserId(userId: string): Promise<User | null | undefined> {
+    try {
+      const userInfo = await this.users?.getByUserid(userId)
+
+      // @ts-ignore
+      delete userInfo?.password
+      // @ts-ignore
+      delete userInfo?.salt
+
+      return userInfo
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }
