@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:start": "pscale shell swoleproddb main",
+    "db:seed": "npx prisma db seed",
+    "db:start:dev": "pscale shell swoleproddb dev",
     "db:migrate": "npx prisma db push --schema=./api/schema.prisma",
     "start:dev": "nodemon index.ts",
     "prisma:import": "npx prisma-import --force",
@@ -36,6 +38,7 @@
     "typescript": "^5.0.3"
   },
   "prisma": {
+    "seed": "ts-node prisma/seed.ts",
     "import": {
       "output": "./api/schema.prisma",
       "schemas": "./api/**/{*,.*}/*.prisma",
