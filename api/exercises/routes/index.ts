@@ -1,16 +1,18 @@
 import express, { Request, Response } from 'express'
-import { createExercise } from '../services'
-import { ExercisesPayload } from '../models'
+import { ExerciseServices } from '../services'
 
 const router  = express.Router()
+const exerciseService = new ExerciseServices()
 
 router.post('/create', async (req: Request, res: Response) => {
   try {
     if (req.body) {
-      const exercisesPayload: ExercisesPayload = req.body
-      createExercise(exercisesPayload)
+      const exercisesPayload = req.body
+      const { exerciseName, targetMuscle, video, secondaryMuscles } = exercisesPayload
+
+      await exerciseService.createExercise(exerciseName, targetMuscle, video, secondaryMuscles)
+
       res.sendStatus(200)
-      res.end()
     }
   } catch (e) {
     res.status(500).json({
