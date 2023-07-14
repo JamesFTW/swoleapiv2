@@ -28,7 +28,8 @@ export class ExerciseServices {
 
   async getExerciseById(exerciseId: number) {
     try {
-      await this.exercise?.getExerciseById(exerciseId)
+      const exercise = await this.exercise?.getExerciseById(exerciseId)
+      return exercise
     } catch(error) {
       return Promise.reject(error)
     }
