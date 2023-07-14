@@ -1,5 +1,6 @@
 import { ValidationChain, body }   from 'express-validator'
-import { Users, User, UserPayload } from '../models'
+import { Users as User }           from '@prisma/client'
+import { Users, UserPayload }      from '../models'
 
 export class UsersServices {
   private users: Users | null;

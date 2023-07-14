@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Users as User } from '@prisma/client'
 const prisma = new PrismaClient()
 
 declare global {
@@ -16,20 +16,6 @@ export interface UserPayload {
   lastName: string
   email: string
   password: string
-}
-
-export type User = {
-  profilePhoto: string | null
-  bio: string | null
-  firstName: string | null
-  lastName: string | null
-  salt: string
-  userId: string
-  userName: string
-  email: string
-  password: string
-  createdAt: Date
-  updatedAt: Date
 }
 
 export class Users  {
