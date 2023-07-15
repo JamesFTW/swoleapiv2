@@ -53,4 +53,20 @@ export class Exercises  {
       )
     }
   }
+
+  async getAllExercises(): Promise<Exercise[] | null> {
+    try {
+      const allExercises = await prisma.exercises.findMany({
+        orderBy: {
+          exerciseName: 'asc'
+        }
+      })
+      return allExercises
+
+    } catch(error) {
+      throw new Error(
+        `An error occurred while fetching all exercises: ${(error as Error).message}`
+      )
+    }
+  }
 }

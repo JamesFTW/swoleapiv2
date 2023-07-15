@@ -28,6 +28,24 @@ router.post('/create', async (req: Request, res: Response) => {
   }
 })
 
+router.get('/', async (req: Request, res: Response) => {
+  try {
+    if (req.isAuthenticated()) {
+      const allExercises = await exerciseService.getAllExercises()
+
+      res.status(200).json({
+        allExercises
+      })
+    }
+
+  } catch (e) {
+    res.status(500).json({
+      message: "Something went wrong getting all exercises.",
+      error: e
+    })
+  }
+})
+
 router.get('/:exerciseId', async (req: Request<{ exerciseId: string}>, res: Response) => {
   const { exerciseId } = req.params
 

@@ -42,4 +42,11 @@ export class ExerciseServices {
     }
   }
 
+  async getAllExercises() {
+    try {
+      return await this.exercise?.getAllExercises()
+    } catch(error) {
+      return Promise.reject(error)
+    }
+  }
 }
