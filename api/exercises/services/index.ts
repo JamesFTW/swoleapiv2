@@ -1,4 +1,5 @@
 import { Exercises } from '../models'
+import { Exercises as Exercise } from '@prisma/client'
 
 
 export class ExerciseServices {
@@ -26,27 +27,43 @@ export class ExerciseServices {
     }
   }
 
-  async getExerciseById(exerciseId: number) {
+  async getExerciseById(exerciseId: number): Promise<Exercise | null> {
     try {
-      return await this.exercise?.getExerciseById(exerciseId)
+      const exercise = await this.exercise?.getExerciseById(exerciseId)
+
+      if (!exercise) {
+        return Promise.reject(new Error(`Exercise with ID ${exerciseId} not found`))
+      }
+
+      return exercise
+
+    } catch(error) {
+      return Promise.reject(new Error(`Failed to retrieve exercise by ID: ${(error as Error).message}`))
+    }
+  }
+
+  async getExerciseByName(exerciseName: string): Promise<Exercise | null> {
+    try {
+      const exercise = this.exercise?.getExerciseByName(exerciseName)
+
+      if (!exercise) {
+        return Promise.reject(new Error(`Exercise with ID ${exerciseName} not found`))
+      }
+
+      return exercise
+
     } catch(error) {
       return Promise.reject(error)
     }
   }
 
-  async getExerciseByName(exerciseName: string) {
+  async getAllExercises(filter: string = ''): Promise<Exercise[] | null | undefined> {
     try {
-      await this.exercise?.getExerciseByName(exerciseName)
-    } catch(error) {
-      return Promise.reject(error)
-    }
-  }
-
-  async getAllExercises() {
-    try {
-      return await this.exercise?.getAllExercises()
-    } catch(error) {
-      return Promise.reject(error)
+      const allExercises = await this.exercise.getAllExercises();
+      const filteredExercises = allExercises?.filter(exercise => exercise.exerciseName.includes(filter));
+      return filteredExercises;
+    } catch (error) {
+      return Promise.reject(new Error(`Failed to retrieve all exercises: ${(error as Error).message}`));
     }
   }
 }
