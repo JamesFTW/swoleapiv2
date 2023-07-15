@@ -3,10 +3,12 @@ import { Users as User }           from '@prisma/client'
 import { Users, UserPayload }      from '../models'
 
 export class UsersServices {
-  private users: Users | null;
+  private users: Users | null
 
-  constructor() {
-    this.users = new Users()
+  constructor(users?: Users) {
+    this.users = users
+      ? users
+      : new Users()
   }
 
   createEmailChain = (): ValidationChain => {
@@ -61,7 +63,9 @@ export class UsersServices {
         salt
       )
     } catch(error) {
-      return Promise.reject(error)
+      return Promise.reject(
+        new Error(`Failed to create user: ${(error as Error).message}`)
+      )
     }
   }
 
@@ -69,15 +73,25 @@ export class UsersServices {
     try {
       return this.users?.getByUserName(userName)
     } catch(error) {
-      return Promise.reject(error)
+      return Promise.reject(
+        new Error(`Failed to retrieve user by username: ${(error as Error).message}`)
+      )
     }
   }
 
   async getByEmail(email: string): Promise<User | null | undefined> {
     try {
-      return this.users?.getByEmail(email)
+      const user = await this.users?.getByEmail(email)
+
+      if (user === undefined) {
+        throw new Error(`User with email ${email} not found`)
+      }
+
+      return user;
     } catch (error) {
-      return Promise.reject(error)
+      return Promise.reject(
+        new Error(`Failed to retrieve user by email: ${(error as Error).message}`)
+      );
     }
   }
   
@@ -92,7 +106,9 @@ export class UsersServices {
 
       return userInfo
     } catch (error) {
-      return Promise.reject(error)
+      return Promise.reject(
+        new Error(`Failed to retrieve user by user ID: ${(error as Error).message}`)
+      )
     }
   }
 }
