@@ -133,7 +133,7 @@ describe('UsersServices', () => {
     
       // Call the getByEmail method
       const result = await usersServices.getByEmail(email)
-    
+
       // Expect the getByEmail method to have been called with the correct argument
       expect(getByEmailMock).toHaveBeenCalledWith(email)
     
