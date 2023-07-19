@@ -18,7 +18,7 @@ export const legs = [
       video: 'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
   {
-      exerciseName: 'Squat',
+      exerciseName: 'Back Squat',
       targetMuscle: 'Legs',
       secondaryMuscles: [{secondaryMuscle1: 'Calves', secondaryMuscle2: 'Abs', secondaryMuscle3: 'Hamstrings'}],
       video: 'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
