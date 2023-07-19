@@ -59,11 +59,26 @@ export class ExerciseServices {
 
   async getAllExercises(filter: string = ''): Promise<Exercise[] | null | undefined> {
     try {
-      const allExercises = await this.exercise.getAllExercises();
-      const filteredExercises = allExercises?.filter(exercise => exercise.exerciseName.includes(filter));
-      return filteredExercises;
+      const allExercises = await this.exercise.getAllExercises()
+      const filteredExercises = allExercises?.filter(exercise => exercise.exerciseName.includes(filter))
+      return filteredExercises
     } catch (error) {
-      return Promise.reject(new Error(`Failed to retrieve all exercises: ${(error as Error).message}`));
+      return Promise.reject(new Error(`Failed to retrieve all exercises: ${(error as Error).message}`))
+    }
+  }
+
+  async getPreviewExercises(exerciseCount: number): Promise<Exercise[] | null | undefined> {
+    try {
+      const getPreviewExercises = await this.exercise.getPreviewExercises(exerciseCount)
+      
+      if (getPreviewExercises?.length === 0) {
+        return null
+      }
+
+      return getPreviewExercises
+
+    } catch(error) {
+      return Promise.reject(new Error(`Failed to retrieve preview exercises: ${(error as Error).message}`))
     }
   }
 }

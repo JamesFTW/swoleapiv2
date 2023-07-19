@@ -1,4 +1,5 @@
 import { ExerciseServices } from '../services'
+import { Exercises as Exercise } from '@prisma/client'
 
 describe('ExerciseServices', () => {
   let exerciseServices: ExerciseServices
@@ -16,8 +17,6 @@ describe('ExerciseServices', () => {
 
       await exerciseServices.createExercise(exerciseName, targetMuscle, video, secondaryMuscles)
 
-      // Optionally, you can add assertions to verify the creation of the exercise.
-      // For example, you can call `getExerciseByName` to check if the exercise was created.
       const createdExercise = await exerciseServices.getExerciseByName(exerciseName)
       expect(createdExercise).toBeDefined()
       expect(createdExercise?.targetMuscle).toBe(targetMuscle)
@@ -37,7 +36,6 @@ describe('ExerciseServices', () => {
 
   describe('getExerciseById', () => {
     it('should retrieve an exercise by ID', async () => {
-      // Create an exercise first to test retrieval
       const exerciseName = `Test Exercise ${Math.random().toString(36).substring(7)}`
       const targetMuscle = 'Test Muscle'
       const video = 'https://example.com/test-exercise'
@@ -70,10 +68,8 @@ describe('ExerciseServices', () => {
       const video = 'https://example.com/test-exercise'
       const secondaryMuscles = { muscle: 'Test Secondary Muscle' }
     
-      // Create the exercise first
       await exerciseServices.createExercise(exerciseName, targetMuscle, video, secondaryMuscles)
     
-      // Now, retrieve the exercise by name
       const retrievedExercise = await exerciseServices.getExerciseByName(exerciseName)
     
       expect(retrievedExercise).toBeDefined()
@@ -129,6 +125,61 @@ describe('ExerciseServices', () => {
       await expect(async () => {
         await exerciseServices.getAllExercises()
       }).rejects.toThrow('Database error')
+    })
+  })
+  describe('getPreviewExercises', () => {
+    it('should retrieve the specified number of preview exercises', async () => {
+      const mockPreviewExercises: Exercise[] = [
+        {
+          exerciseId: 1,
+          exerciseName: 'Exercise 1',
+          targetMuscle: 'Legs',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          secondaryMuscles: { muscle1: 'Muscle 1', muscle2: 'Muscle 2' },
+          video: 'https://example.com/squats',
+        },
+        {
+          exerciseId: 2,
+          exerciseName: 'Exercise 2',
+          targetMuscle: 'Arms',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          secondaryMuscles: { muscle1: 'Muscle 1' },
+          video: 'https://example.com/push-ups',
+        }
+      ]
+      jest.spyOn(exerciseServices['exercise'], 'getPreviewExercises').mockResolvedValue(mockPreviewExercises)
+
+      const exerciseCount = 2
+      const previewExercises = await exerciseServices.getPreviewExercises(exerciseCount)
+
+      expect(previewExercises).toBeDefined()
+      expect(Array.isArray(previewExercises)).toBe(true)
+      expect(previewExercises?.length).toBe(exerciseCount)
+    })
+
+    it('should return null if no preview exercises are available', async () => {
+      jest.spyOn(exerciseServices['exercise'], 'getPreviewExercises').mockResolvedValue([])
+
+      const exerciseCount = 5
+      const previewExercises = await exerciseServices.getPreviewExercises(exerciseCount)
+
+      expect(previewExercises).toBeNull()
+    })
+
+    it('should reject with an error if an error occurs during retrieval', async () => {
+      const errorMessage = 'Database error'
+      jest.spyOn(exerciseServices['exercise'], 'getPreviewExercises').mockRejectedValue(new Error(errorMessage))
+
+      const exerciseCount = 2
+
+      try {
+        await exerciseServices.getPreviewExercises(exerciseCount)
+        throw new Error('Expected getPreviewExercises to throw an error')
+      } catch (error: any) {
+        expect(error.message).toBe(`Failed to retrieve preview exercises: ${errorMessage}`)
+      }
     })
   })
 })

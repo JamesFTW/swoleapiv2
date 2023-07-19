@@ -46,6 +46,24 @@ router.get('/', async (req: Request, res: Response) => {
   }
 })
 
+router.get('/workoutPagePreview', async (req: Request, res: Response) => {
+  try {
+    if (req.isAuthenticated()) {
+      const exerciseCount = 5
+      const previewExercises = await exerciseService.getPreviewExercises(exerciseCount)
+      res.status(200).json({
+        previewExercises
+      })
+    }
+
+  } catch(error) {
+    res.status(500).json({
+      message: "Something went wrong getting workoutPagePreview exercises",
+      error: error
+    })
+  }
+})
+
 router.get('/:exerciseId', async (req: Request<{ exerciseId: string}>, res: Response) => {
   const { exerciseId } = req.params
 
@@ -59,10 +77,6 @@ router.get('/:exerciseId', async (req: Request<{ exerciseId: string}>, res: Resp
           exercise
         })
      
-      } else {
-        res.sendStatus(500).json({
-          message: "Error: Request body is missing",
-        })
       }
     }
 

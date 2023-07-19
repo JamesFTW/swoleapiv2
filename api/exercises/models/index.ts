@@ -56,9 +56,29 @@ export class Exercises  {
     }
   }
 
-  async getAllExercises(): Promise<Exercise[] | null> {
+  async getAllExercises(num?: number): Promise<Exercise[] | null> {
     try {
       const allExercises = await prisma.exercises.findMany({
+        orderBy: {
+          exerciseName: 'asc'
+        }
+      })
+      return allExercises
+
+    } catch(error) {
+      throw new Error(
+        `An error occurred while fetching all exercises: ${(error as Error).message}`
+      )
+    }
+  }
+
+  async getPreviewExercises(take: number): Promise<Exercise[] | null> {
+    try {
+      const exerciseCount = await prisma.exercises.count()
+      const skip = Math.floor(Math.random() * exerciseCount)
+      const allExercises = await prisma.exercises.findMany({
+        take: take,
+        skip: skip,
         orderBy: {
           exerciseName: 'asc'
         }
