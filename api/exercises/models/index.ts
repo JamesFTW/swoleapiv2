@@ -17,8 +17,10 @@ export class Exercises  {
             secondaryMuscles,
           }
         })
-    } catch (e) {
-      console.log(e)
+    } catch (error) {
+      throw new Error(
+        `An error occurred while creating a new exercise: ${(error as Error).message}`
+      )
     }
   }
 
