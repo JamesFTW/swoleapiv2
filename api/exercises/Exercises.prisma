@@ -1,3 +1,5 @@
+import { UserExercises } from "../userexercise/UserExercises"
+
 model Exercises {
   exerciseId Int @id @unique @default(autoincrement())
   createdAt DateTime  @default(now()) @db.Timestamp(6)
@@ -6,4 +8,6 @@ model Exercises {
   targetMuscle String
   secondaryMuscles Json?
   video String
+
+  userExercises UserExercises[]
 }

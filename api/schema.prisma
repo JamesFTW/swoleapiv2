@@ -41,6 +41,27 @@ model Exercises {
   targetMuscle     String
   secondaryMuscles Json?
   video            String
+
+  userExercises UserExercises[]
+}
+
+//
+// UserExercises.prisma
+//
+
+model UserExercises {
+  userExerciseID Int      @id @unique @default(autoincrement())
+  exerciseId     Int      @unique
+  userId         String   @unique
+  createdAt      DateTime @default(now()) @db.Timestamp(6)
+  updatedAt      DateTime @updatedAt
+  weightMoved    Int
+
+  user     Users     @relation(fields: [userId], references: [userId])
+  exercise Exercises @relation(fields: [exerciseId], references: [exerciseId])
+
+  @@index([userId])
+  @@index([exerciseId])
 }
 
 //
@@ -59,4 +80,6 @@ model Users {
   password     String   @db.VarChar(60)
   createdAt    DateTime @default(now()) @db.Timestamp(6)
   updatedAt    DateTime @updatedAt
+
+  userExercises UserExercises[]
 }
