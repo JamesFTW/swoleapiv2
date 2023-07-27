@@ -1,11 +1,5 @@
 export const shoulders = [
   {
-      exerciseName: 'Machine Press',
-      targetMuscle: 'Shoulders',
-      secondaryMuscles: [{secondaryMuscle1: 'Chest', secondaryMuscle2: 'Traps', secondaryMuscle3: 'Biceps', secondaryMuscle4: 'Triceps'}],
-      video: 'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
-  },
-  {
       exerciseName: 'Arnold Press',
       targetMuscle: 'Shoulders',
       secondaryMuscles: [{secondaryMuscle1: 'Triceps'}],

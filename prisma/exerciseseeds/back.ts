@@ -1,11 +1,5 @@
 export const back = [
   {
-      exerciseName: 'Kettlebell Swings',
-      targetMuscle: 'Back',
-      secondaryMuscles: [{secondaryMuscle1: 'Back', secondaryMuscle2: 'Glutes', secondaryMuscle3: 'Hamstrings', secondaryMuscle4: 'Abs'}],
-      video: 'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
-  },
-  {
       exerciseName: 'Barbell Deadlift',
       targetMuscle: 'Back',
       secondaryMuscles: [{secondaryMuscle1: 'Hamstrings', secondaryMuscle2:' Glutes'}],
@@ -38,7 +32,7 @@ export const back = [
   {
       exerciseName: 'Inverted Row',
       targetMuscle: 'Back',
-      secondaryMuscles: [{secondaryMuscle1: 'Triceps', secondaryMuscle2: 'Chest', secondaryMuscle3: 'Bicep'}],
+      secondaryMuscles: [{secondaryMuscle1: 'Triceps', secondaryMuscle2: 'Chest', secondaryMuscle3: 'Biceps'}],
       video: 'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
   {
@@ -62,7 +56,7 @@ export const back = [
   {
       exerciseName: 'Renegade Row',
       targetMuscle: 'Back',
-      secondaryMuscles: [{secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Abs', secondaryMuscle3: 'Biceps', secondaryMuscle4:'Tricep'}],
+      secondaryMuscles: [{secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Abs', secondaryMuscle3: 'Biceps', secondaryMuscle4:'Triceps'}],
       video: 'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   }
 ]
