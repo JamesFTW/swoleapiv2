@@ -51,8 +51,8 @@ model Exercises {
 
 model UserExercises {
   userExerciseID Int      @id @unique @default(autoincrement())
-  exerciseId     Int      @unique
-  userId         String   @unique
+  exerciseId     Int
+  userId         String
   createdAt      DateTime @default(now()) @db.Timestamp(6)
   updatedAt      DateTime @updatedAt
   weightMoved    Int
