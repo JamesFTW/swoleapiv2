@@ -6,13 +6,15 @@ export class UserExercisesModel  {
     exerciseId: number,
     userId: string,
     weightMoved: number,
+    reps: number
   ): Promise<void> {
       try {
         await prisma.userExercises.create({
           data: {
             exerciseId,
             userId,
-            weightMoved
+            weightMoved,
+            reps
           }
         })
     } catch (error) {

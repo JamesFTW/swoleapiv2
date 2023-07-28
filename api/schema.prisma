@@ -56,6 +56,7 @@ model UserExercises {
   createdAt      DateTime @default(now()) @db.Timestamp(6)
   updatedAt      DateTime @updatedAt
   weightMoved    Int
+  reps           Int
 
   user     Users     @relation(fields: [userId], references: [userId])
   exercise Exercises @relation(fields: [exerciseId], references: [exerciseId])

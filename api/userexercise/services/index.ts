@@ -13,6 +13,7 @@ export class UserExercisesServices {
     exerciseId: number,
     userId: string,
     weightMoved: number,
+    reps: number
   ): Promise<void> {
 
     const userExists = await prisma.users.findUnique({
@@ -41,11 +42,15 @@ export class UserExercisesServices {
     // @ts-ignore
     const weightMovedInt = parseInt(weightMoved)
 
+    // @ts-ignore
+    const repsInt = parseInt(reps)
+
     try {
       await this.userExercise.create(
         exerciseIdInt,
         userId,
         weightMovedInt,
+        repsInt
       )
     } catch(error) {
       return Promise.reject(error)
