@@ -6,6 +6,6 @@ import userExercisesRoutes from './userexercise/routes'
 const router  = express.Router()
 router.use('/users', usersRoutes)
 router.use('/exercises', exercisesRoutes)
-router.use('/userExercises', userExercisesRoutes)
+router.use('/userexercises', userExercisesRoutes)
 
 export default router

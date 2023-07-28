@@ -1,5 +1,5 @@
 import { UserExercisesModel } from '../models'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, UserExercises } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export class UserExercisesServices {
@@ -15,11 +15,6 @@ export class UserExercisesServices {
     weightMoved: number,
   ): Promise<void> {
 
-    // @ts-ignore
-    const exerciseIdInt = parseInt(exerciseId)
-    // @ts-ignore
-    const weightMovedInt = parseInt(weightMoved)
-
     const userExists = await prisma.users.findUnique({
       where: {
         userId: userId,
@@ -29,6 +24,9 @@ export class UserExercisesServices {
     if (!userExists) {
       return Promise.reject('User with the provided userId does not exist.')
     }
+
+    // @ts-ignore
+    const exerciseIdInt = parseInt(exerciseId)
 
     const exerciseExists = await prisma.exercises.findUnique({
       where: {
@@ -40,12 +38,24 @@ export class UserExercisesServices {
       return Promise.reject('Exercise with the provided exerciseId does not exist.')
     }
 
+    // @ts-ignore
+    const weightMovedInt = parseInt(weightMoved)
+
     try {
       await this.userExercise.create(
         exerciseIdInt,
         userId,
         weightMovedInt,
       )
+    } catch(error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async getUserExercises(exerciseId: number, userId: string): Promise<UserExercises[] | undefined> {
+    try {
+      const userExercise = await this.userExercise.getUserExercise(exerciseId, userId)
+      return userExercise
     } catch(error) {
       return Promise.reject(error)
     }

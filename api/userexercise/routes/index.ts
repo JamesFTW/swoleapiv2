@@ -6,26 +6,46 @@ const userExerciseService = new UserExercisesServices()
 
 router.post('/create', async (req: Request, res: Response) => {
   try {
-    console.log(req.isAuthenticated())
     if (req.body) {
       if (req.isAuthenticated()) {
-        const userExercisesPayload = req.body
-        const { exerciseId, userId, weightMoved } = userExercisesPayload
-
-        console.log(userExercisesPayload)
+        const { exerciseId, userId, weightMoved } = req.body
 
         await userExerciseService.create(exerciseId, userId, weightMoved)
 
       res.sendStatus(200)
     } else {
         res.status(500).json({
-          message: "Error: Request body is missing",
+          message: "Error: Request is not authenticated",
         })
       }
     }
   } catch (error) {
     res.status(500).json({
       message: "Something went wrong creating a new user exercise.",
+      error: error
+    })
+  }
+})
+
+router.get('/:userid/:exerciseid', async (req: Request, res: Response) => {
+  const { userid, exerciseid} = req.params
+
+  try {
+    if (req.isAuthenticated()) {
+
+      const userExercise = await userExerciseService.getUserExercises(parseInt(exerciseid), userid)
+      res.status(200).json({
+        userExercise
+      })
+
+    } else {
+      res.status(500).json({
+        message: "Error: Request is not authenticated"
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: `Something went wrong we getting userexercise for userid: ${userid} exerciseid: ${exerciseid}`,
       error: error
     })
   }
