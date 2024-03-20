@@ -1,3 +1,19 @@
-# swoleapiv2
 
-## GET SWOLE!
+## 📖 How To Use
+
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/JamesFTW/swoleapiv2.git
+
+# Go into the repository
+$ cd swoleapiv2
+
+# Install dependencies
+$ npm install
+
+# Run the app
+$ npm run start:dev
+
+Once the server is running, you can access API endpoints locally using tools like Postman or cURL.
