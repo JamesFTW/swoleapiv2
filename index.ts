@@ -11,7 +11,12 @@ import api from './api'
 dotenv.config()
 
 const MySQLStore = require('express-mysql-session')(session)
-const connection = mysql.createConnection(process.env.DATABASE_URL!)
+// const connection = mysql.createConnection(process.env.DATABASE_URL!)
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  database: 'swole',
+});
 const sessionStore = new MySQLStore({}, connection);
 
 const app: Express = express()
