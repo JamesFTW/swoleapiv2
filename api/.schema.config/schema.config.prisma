@@ -3,7 +3,7 @@ generator client {
 }
 datasource db {
   provider = "mysql"
-  url = "mysql://localhost:3306"
-  password = "password"
+  url = ${process.env.DATABASE_URL}
+  password = ${process.env.DATABASE_PASSWORD}
   relationMode = "prisma"
 }

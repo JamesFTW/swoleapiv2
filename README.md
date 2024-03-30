@@ -17,3 +17,30 @@ $ npm install
 $ npm run start:dev
 
 Once the server is running, you can access API endpoints locally using tools like Postman or cURL.
+```
+
+
+## Docker Instructions 
+For the database there is some minimal setup with docker requred. 
+Install the desktop app and the docker cli tools 
+
+```bash
+
+## Build and run the docker container locally
+npm run db:start
+
+## Show running containers 
+docker ps 
+
+## Take the NAME of the container from the docker ps step and execute it with bash 
+docker exec -it name_here bash
+
+## Auth into the mysql db
+mysql -uroot -ppassword
+```
+
+As well as add the following line to your project .env if you are working locally 
+`
+DATABASE_URL="mysql://root:password@localhost:3306/swole"
+DATABASE_PASSWORD="password" 
+`
