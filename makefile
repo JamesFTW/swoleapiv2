@@ -7,7 +7,10 @@ start: ## start the local api server after db is running
 	npm run start:dev
 
 start-db: ## start the local api server "docker build -t db . && docker run -d -p 3306:3306 db",
-	docker build -t db . && docker run -d -p 3306:3306 db && docker ps
+	npm run db:start:dev
+
+stop-db: ## kill and remove the db image
+	docker kill db && docker rm db
 
 deps: ## install dependencies
 	npm install

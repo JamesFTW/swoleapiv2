@@ -7,7 +7,7 @@
     "test": "jest",
     "db:start": "pscale shell swoleproddb main",
     "db:seed": "npx prisma db seed",
-    "db:start:dev": "docker build -t db . && docker run -d -p 3306:3306 db",
+    "db:start:dev": "docker build -t db . && docker run -d -p 3306:3306 --name db -e MYSQL_ALLOW_EMPTY_PASSWORD=true mysql && docker ps",
     "db:migrate": "npx prisma db push --schema=./api/schema.prisma",
     "start:dev": "nodemon index.ts",
     "prisma:import": "npx prisma-import --force",
