@@ -24,7 +24,7 @@ export const back = [
       video: 'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
   {
-      exerciseName: 'Chest-supported Dumbbell Row',
+      exerciseName: 'Dumbbell Row',
       targetMuscle: 'Back',
       secondaryMuscles: [{secondaryMuscle1: 'Shoulders'}],
       video: 'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',

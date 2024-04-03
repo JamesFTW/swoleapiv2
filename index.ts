@@ -12,13 +12,13 @@ dotenv.config()
 
 const MySQLStore = require('express-mysql-session')(session)
 const connection = mysql.createConnection(process.env.DATABASE_URL!)
-const sessionStore = new MySQLStore({}, connection);
+const sessionStore = new MySQLStore({}, connection)
 
 const app: Express = express()
 const port = process.env.PORT
 
 app.use(cors())
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(session({
   secret: process.env.SESSION_SECRET!,
@@ -29,15 +29,15 @@ app.use(session({
     secure: false
   },
   store: sessionStore
-}));
+}))
 app.use(passport.initialize())
-app.use(passport.session());
-app.use(passport.authenticate('session'));
+app.use(passport.session())
+app.use(passport.authenticate('session'))
 app.use(helmet())
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+  console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
+})
 
 app.use('/api', api)
 

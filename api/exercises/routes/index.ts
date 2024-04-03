@@ -36,6 +36,8 @@ router.get('/', async (req: Request, res: Response) => {
       res.status(200).json({
         allExercises
       })
+    } else {
+      res.status(403)
     }
 
   } catch (e) {
