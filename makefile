@@ -19,7 +19,7 @@ seed: ## creates schema and loads seed data from prisma/exerciseseeds after db i
 	npm run db:migrate && npm run db:seed 
 
 sql-access: ## generates dialog for how to access the sql server manually for testing 
-	docker ps && echo "\n1. Copy Names into 'docker exec -it name_here bash'\n" && echo "Then 2. 'mysql -uroot -ppassword'"
+	docker ps && echo "\n1. 'docker exec -it db bash'\n" && echo "Then 2. 'mysql -uroot'"
 
 test: ## Testing via jest 
 	npm run test
