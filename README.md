@@ -41,5 +41,7 @@ mysql -uroot
 
 As well as add the following line to your project .env if you are working locally 
 `
-DEV_DATABASE_URL="mysql://root:password@localhost:3306/swole"
+DEV_DATABASE_URL="mysql://root@localhost:3307/swole"
+DATABASE_USER="root"
+PORT=3000
 `

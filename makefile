@@ -6,7 +6,7 @@ help: ## describe available commands
 start: ## start the local api server after db is running
 	npm run start:dev
 
-start-db-dev-docker: ## start the local api server "docker build -t db . && docker run -d -p 3306:3306 db",
+start-db-dev-docker: ## start the local api server "docker build -t db . && docker run -d -p 3307:3306 db",
 	npm run db:start:dev:docker
 
 stop-db: ## kill and remove the db image
@@ -18,8 +18,11 @@ deps: ## install dependencies
 seed: ## creates schema and loads seed data from prisma/exerciseseeds after db is running
 	npm run db:migrate && npm run db:seed 
 
-sql-access: ## generates dialog for how to access the sql server manually for testing 
-	docker ps && echo "\n1. 'docker exec -it db bash'\n" && echo "Then 2. 'mysql -uroot'"
+sql-access: ## access db running in container 
+	docker exec -it db mysql -uroot
+
+ip: ## inspect ports on docker container must add name=<name>
+	docker container inspect $(name) | jq '.[0].NetworkSettings.Ports'
 
 test: ## Testing via jest 
 	npm run test

@@ -1,7 +1,7 @@
 # Use the official MySQL 8.0 image as the base image
 FROM mysql:8.0
 
-EXPOSE 3306
+EXPOSE 3307
 
 # Set the root user password for MySQL
 ENV MYSQL_ROOT_PASSWORD=password
