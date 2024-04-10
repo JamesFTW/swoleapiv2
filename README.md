@@ -27,20 +27,19 @@ Install the desktop app and the docker cli tools
 ```bash
 
 ## Build and run the docker container locally
-npm run db:start
+make start-db-dev-docker
 
 ## Show running containers 
 docker ps 
 
 ## Take the NAME of the container from the docker ps step and execute it with bash 
-docker exec -it name_here bash
+docker exec -it db bash
 
 ## Auth into the mysql db
-mysql -uroot -ppassword
+mysql -uroot
 ```
 
 As well as add the following line to your project .env if you are working locally 
 `
-DATABASE_URL="mysql://root:password@localhost:3306/swole"
-DATABASE_PASSWORD="password" 
+DEV_DATABASE_URL="mysql://root:password@localhost:3306/swole"
 `
