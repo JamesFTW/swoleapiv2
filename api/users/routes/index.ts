@@ -37,6 +37,10 @@ router.post('/signup',
       next
     ) => {
 
+      /**TODO:
+       * Get passord chain working correctly
+       */
+
     const userPayload: UserPayload = req.body
     const salt: string = await bcrypt.genSalt(16)
 
