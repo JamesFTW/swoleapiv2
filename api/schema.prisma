@@ -12,9 +12,9 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 //
@@ -22,11 +22,11 @@ datasource db {
 //
 
 model Session {
-  session_id String  @id @db.VarChar(128)
-  expires    Int     @db.Int()
-  data       String? @db.MediumText()
+  sid    String   @id @db.VarChar(128)
+  sess   Json     @db.Json
+  expire DateTime @db.Timestamp()
 
-  @@map("sessions")
+  @@map("session")
 }
 
 //

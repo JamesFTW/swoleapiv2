@@ -1,7 +1,7 @@
 model Session {
-  session_id String  @id @db.VarChar(128)
-  expires    Int     @db.Int()
-  data       String? @db.MediumText()
+  sid  String @id @db.VarChar(128)
+  sess Json   @db.Json
+  expire DateTime @db.Timestamp()
 
-  @@map("sessions")
+  @@map("session")
 }
