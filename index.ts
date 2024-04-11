@@ -40,4 +40,4 @@ app.listen(port, () => {
 
 app.use('/api', api)
 
-export default app
+module.exports = app
