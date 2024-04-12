@@ -6,9 +6,6 @@ help: ## describe available commands
 start: ## start the local api server after db is running
 	npm run start:dev
 
-start-db: ## start the local api server "docker build -t db . && docker run -d -p 5432:5432 db",
-	docker build -t db database/. && docker run -d -p 5432:5432 --name db -e POSTGRES_PASSWORD=pw -e POSTGRES_DB=swole -d postgres && docker ps
-
 stop-db: ## kill and remove the db image
 	docker kill db && docker rm db
 
@@ -18,11 +15,14 @@ deps: ## install dependencies
 seed: ## creates schema and loads seed data from prisma/exerciseseeds after db is running
 	npm run db:migrate && npm run db:seed 
 
-sql-access: ## access db running in container 
+db-access: ## access db running in container 
 	docker exec -it db psql -U postgres -W      
 
 test: ## Testing via jest 
 	npm run test
+
+start-docker: ## starts all items in docker-compose.yml
+	docker-compose up
 
 docker-debug-start:
 	docker run --interactive --env-file  ./.env --rm --name debug-api -p 3000:3000 swoleapiv2-api sleep infinity"

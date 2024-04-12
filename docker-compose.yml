@@ -19,10 +19,10 @@ services:
       - POSTGRES_HOST=${DATABASE_HOSTNAME}
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PORT=${DATABASE_PORT}
-      - POSTGRES_PASSWORD=pw
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - DEV_DATABASE_URL=postgresql://postgres:pw@db:5432/swole
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "swole", "-U", "postgres", "-h", "db", "-p", "5432", "-d", "1"]
+      test: ["CMD", "pg_isready", "-d", "swole", "-U", "postgres", "-h", "db", "-p", "5432", "-d", "1"] # checks that 
       interval: 5s
       timeout: 5s
       retries: 3  

@@ -26,17 +26,11 @@ Install the desktop app and the docker cli tools
 
 ```bash
 
-## Build and run the docker container locally
-make start-db-dev-docker
+## Build and run docker containers locally
+docker compose -f "docker-compose.yml" up -d --build 
 
-## Show running containers 
-docker ps 
-
-## Take the NAME of the container from the docker ps step and execute it with bash 
-docker exec -it db bash
-
-## Auth into the mysql db
-mysql -uroot
+## Auth into local docker db
+make db-access
 ```
 
 As well as add the following line to your project .env if you are working locally 
