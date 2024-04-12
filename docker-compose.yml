@@ -20,25 +20,25 @@ services:
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PORT=${DATABASE_PORT}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - DEV_DATABASE_URL=postgresql://postgres:pw@db:5432/swole
+      - DEV_DATABASE_URL=${DEV_DATABASE_URL}
     healthcheck:
       test: ["CMD", "pg_isready", "-d", "swole", "-U", "postgres", "-h", "db", "-p", "5432", "-d", "1"] # checks that 
       interval: 5s
       timeout: 5s
       retries: 3  
-  # api:
-  #   networks: 
-  #     - backend
-  #   container_name: api
-  #   environment:
-  #     - HOSTNAME=localhost
-  #     - DEV_DATABASE_URL=postgresql://postgres:pw@db:5432/swole
-  #     - DATABASE_USER=${DATABASE_USER}
-  #     - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-  #   build: .
-  #   ports:
-  #     - '3000:3000'
-  #   mem_limit: 6g
-  #   depends_on:
-      # db:
-      #   condition: service_healthy
+  api:
+    networks: 
+      - backend
+    container_name: api
+    environment:
+      - HOSTNAME=${DATABASE_HOSTNAME}
+      - DEV_DATABASE_URL=${DEV_DATABASE_URL}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    build: .
+    ports:
+      - '3000:3000'
+    mem_limit: 6g
+    depends_on:
+      db:
+        condition: service_healthy

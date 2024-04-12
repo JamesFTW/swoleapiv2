@@ -11,7 +11,7 @@
     "db:migrate": "npx prisma db push --schema=./api/schema.prisma",
     "start:dev": "nodemon index.ts",
     "prisma:import": "npx prisma-import --force",
-    "postinstall": "prisma generate --schema=./api/schema.prisma"
+    "prisma:postinstall": "prisma generate --schema=./api/schema.prisma"
   },
   "repository": {
     "type": "git",
@@ -71,7 +71,7 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pg": "^8.11.5",
-    "prisma": "^4.12.0",
+    "prisma": "^4.16.2",
     "prisma-import": "^1.0.4"
   }
 }

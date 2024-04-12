@@ -1,6 +1,6 @@
 model Session {
   sid  String @id @db.VarChar(128)
-  session Json   @db.Json
+  sess Json   @db.Json
   expire DateTime @db.Timestamp()
 
   @@map("session")

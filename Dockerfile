@@ -18,4 +18,5 @@ RUN chmod +x /setup_db.sh
 
 COPY . .
 
-CMD chmod +x /setup_db.sh && /bin/bash -c "/setup_db.sh && npm run start:dev"
+CMD chmod +x /setup_db.sh && /bin/bash -c "/setup_db.sh"
+# CMD chmod +x /setup_db.sh && /bin/bash -c "/setup_db.sh && npm run start:dev"
