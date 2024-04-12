@@ -41,5 +41,10 @@ mysql -uroot
 
 As well as add the following line to your project .env if you are working locally 
 `
-DEV_DATABASE_URL="mysql://root:password@localhost:3306/swole"
+DEV_DATABASE_URL="postgresql://postgres:pw@localhost:5432/swole"
+DATABASE_USER="postgres"
+DATABASE_PASSWORD="pw"
+DATABASE_HOSTNAME="db"
+DATABASE_PORT=5432
+PORT=3000
 `

@@ -1,15 +1,21 @@
-# Use the official MySQL 8.0 image as the base image
-FROM mysql:8.0
+#api/Dockerfile
+FROM node:18
 
-EXPOSE 3306
+WORKDIR /
 
-# Set the root user password for MySQL
-ENV MYSQL_ROOT_PASSWORD=password
+COPY package*.json package-lock.json ./
 
-# Create a new database
-ENV MYSQL_DATABASE=swole
+RUN npm install
+COPY .env_docker .env
 
-# Set the character set and collation
-ENV MYSQL_CHARSET=utf8
-ENV MYSQL_COLLATION=utf8_general_ci
+# Ports 
+ENV PORT=3000
+EXPOSE 3000
 
+# Ensure entrypoint script has execute permissions
+COPY setup_db.sh /
+RUN chmod +x /setup_db.sh
+
+COPY . .
+
+CMD chmod +x /setup_db.sh && /bin/bash -c "/setup_db.sh && npm run start:dev"
