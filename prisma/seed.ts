@@ -4,7 +4,7 @@ import { chest, back, legs, shoulders } from './exerciseseeds'
 const prisma = new PrismaClient()
 
 async function main() {
-  await prisma.$queryRaw`TRUNCATE TABLE Exercises;`
+  await prisma.$queryRaw`TRUNCATE TABLE "Exercises";`
   const exerciseSeeds = [chest, back, legs, shoulders]
 
   for ( var i = 0; i < exerciseSeeds.length; i++) {

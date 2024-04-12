@@ -4,43 +4,39 @@ import helmet from 'helmet'
 import passport from 'passport'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
-import mysql from 'mysql2'
+import pgSession from 'connect-pg-simple'
 import cors from 'cors'
 import api from './api'
 
 dotenv.config()
 
-const MySQLStore = require('express-mysql-session')(session)
-const connection = mysql.createConnection({
-  database: 'swole',
-  password: process.env.DATABASE_PASSWORD,
-  user: process.env.DATABASE_USER,
-});
-const sessionStore = new MySQLStore({}, connection);
+const PgSession = pgSession(session)
+
+const sessionMiddleware = session({
+  store: new PgSession({
+    conString: process.env.DEV_DATABASE_URL
+  }),
+  secret: process.env.SESSION_SECRET!,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
+})
 
 const app: Express = express()
 const port = process.env.PORT
+const db_hostname = process.env.DATABASE_HOSTNAME
 
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
-app.use(session({
-  secret: process.env.SESSION_SECRET!,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    secure: false
-  },
-  store: sessionStore
-}));
+app.use(sessionMiddleware)
 app.use(passport.initialize())
 app.use(passport.session());
 app.use(passport.authenticate('session'));
 app.use(helmet())
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+  console.log(`⚡️[server]: Server is running at http://${db_hostname}:${port}`);
 });
 
 app.use('/api', api)
