@@ -22,7 +22,7 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - DEV_DATABASE_URL=${DEV_DATABASE_URL}
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "swole", "-U", "postgres", "-h", "db", "-p", "5432", "-d", "1"] # checks that 
+      test: ["CMD", "pg_isready", "-d", "swole", "-U", "postgres", "-h", "db", "-p", "5432", "-d", "1"]
       interval: 5s
       timeout: 5s
       retries: 3  
