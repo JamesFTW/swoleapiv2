@@ -4,7 +4,7 @@ import { chest, back, legs, shoulders } from './exerciseseeds'
 const prisma = new PrismaClient()
 
 async function main() {
-  await prisma.$queryRaw`TRUNCATE TABLE "Exercises" CASCADE;`
+  await prisma.$queryRaw`TRUNCATE TABLE "Exercises" RESTART IDENTITY CASCADE;`
   const exerciseSeeds = [chest, back, legs, shoulders]
 
   await prisma.$transaction(

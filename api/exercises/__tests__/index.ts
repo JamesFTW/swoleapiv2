@@ -23,7 +23,7 @@ describe('ExerciseServices', () => {
 
   describe('getExerciseById', () => {
     it('should retrieve an exercise by ID', async () => {
-        const retrievedExercise = await exerciseServices.getExerciseById(51)
+        const retrievedExercise = await exerciseServices.getExerciseById(1)
         expect(retrievedExercise).toBeDefined()
     })
 

@@ -1,5 +1,4 @@
 import express, { Express } from 'express'
-import dotenv from 'dotenv'
 import helmet from 'helmet'
 import passport from 'passport'
 import session from 'express-session'
@@ -9,8 +8,6 @@ import api from './api'
 import pgSession from 'connect-pg-simple'
 
 const PgSession = pgSession(session)
-
-dotenv.config()
 
 const sessionMiddleware = session({
   store: new PgSession({
