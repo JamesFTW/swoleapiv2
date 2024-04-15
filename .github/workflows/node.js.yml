@@ -10,7 +10,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    
+
     services:
       postgres:
         image: postgres:14
@@ -23,23 +23,30 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-          
+
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        
+
     - name: Install dependencies
       run: npm ci
-        
+
     - name: Generate Prisma client
+      env:
+        POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
       run: npx prisma generate
-      
+
+    - name: Seed database
+      env:
+        POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+      run: npm run db:push && npm run db:seed
+
     - name: Run integration tests
       env:
         POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-      run: npm run test --inspect
+      run: npm run test
