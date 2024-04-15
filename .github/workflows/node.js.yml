@@ -34,5 +34,4 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run db:push
-    - run: npm run db:seed
     - run: npm test
