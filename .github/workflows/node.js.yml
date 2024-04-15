@@ -31,7 +31,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: supabase init
+    - run: supabase link --project-ref $PROJECT_ID
     - run: supabase start
     - run: npm run db:push
     - run: npm run db:seed
