@@ -22,6 +22,8 @@ jobs:
     env:
       POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
       POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+      SUPABASE_ACCESS_TOKEN: $${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      PROJECT_ID: $${{ secrets.PROJECT_ID }}
 
     steps:
     - uses: actions/checkout@v3
