@@ -4,10 +4,9 @@ import { config } from '../config/aws.config'
 const client = new S3Client(config)
 
 export const uploadFile = async (
-  file: Express.Multer.File | undefined, 
-  bucketName: string | undefined
+  file: Express.Multer.File | undefined,
+  bucketName: string | undefined,
 ) => {
-
   const command = new PutObjectCommand({
     Bucket: bucketName,
     Key: file?.originalname,

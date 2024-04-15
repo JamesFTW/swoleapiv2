@@ -8,15 +8,15 @@ async function main() {
   const exerciseSeeds = [chest, back, legs, shoulders]
 
   await prisma.$transaction(
-    exerciseSeeds.flatMap((exercise) =>
-      exercise.map((item) =>
+    exerciseSeeds.flatMap(exercise =>
+      exercise.map(item =>
         prisma.exercises.upsert({
           where: { exerciseName: item.exerciseName },
           create: item,
           update: {},
-        })
-      )
-    )
+        }),
+      ),
+    ),
   )
 }
 
@@ -24,7 +24,7 @@ main()
   .then(async () => {
     await prisma.$disconnect()
   })
-  .catch(async (e) => {
+  .catch(async e => {
     console.error(e)
     await prisma.$disconnect()
     process.exit(1)

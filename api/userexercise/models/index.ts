@@ -1,37 +1,40 @@
 import { PrismaClient, UserExercises } from '@prisma/client'
 const prisma = new PrismaClient()
 
-export class UserExercisesModel  {
+export class UserExercisesModel {
   async create(
     exerciseId: number,
     userId: string,
     weightMoved: number,
-    reps: number
+    reps: number,
   ): Promise<void> {
-      try {
-        await prisma.userExercises.create({
-          data: {
-            exerciseId,
-            userId,
-            weightMoved,
-            reps
-          }
-        })
+    try {
+      await prisma.userExercises.create({
+        data: {
+          exerciseId,
+          userId,
+          weightMoved,
+          reps,
+        },
+      })
     } catch (error) {
       return Promise.reject(error)
     }
   }
 
-  async getUserExercise(exerciseId: number, userId: string): Promise<UserExercises[] | undefined> {
+  async getUserExercise(
+    exerciseId: number,
+    userId: string,
+  ): Promise<UserExercises[] | undefined> {
     try {
       const userExercise = await prisma.userExercises.findMany({
         where: {
           exerciseId: exerciseId,
-          userId: userId
-        }
+          userId: userId,
+        },
       })
       return userExercise
-    } catch(error) {
+    } catch (error) {
       return Promise.reject(error)
     }
   }

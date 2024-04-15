@@ -1,3 +1,3 @@
 export const s3Buckets = {
-  PROFILE_PHOTOS: 'swole-users-profile-photos'
+  PROFILE_PHOTOS: 'swole-users-profile-photos',
 }
