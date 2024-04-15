@@ -37,16 +37,19 @@ jobs:
     - name: Generate Prisma client
       env:
         POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+        POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
       run: npx prisma generate
 
     - name: Seed database
       env:
         POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+        POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
       run: npm run db:push && npm run db:seed
 
     - name: Run integration tests
       env:
         POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+        POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: npm run test
