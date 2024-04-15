@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import { UserExercisesServices } from '../services'
 
-const router  = express.Router()
+const router = express.Router()
 const userExerciseService = new UserExercisesServices()
 
 router.post('/create', async (req: Request, res: Response) => {
@@ -13,41 +13,42 @@ router.post('/create', async (req: Request, res: Response) => {
         await userExerciseService.create(exerciseId, userId, weightMoved, reps)
 
         res.sendStatus(200)
-    } else {
+      } else {
         res.status(500).json({
-          message: "Error: Request is not authenticated",
+          message: 'Error: Request is not authenticated',
         })
       }
     }
   } catch (error) {
-      res.status(500).json({
-        message: "Something went wrong creating a new user exercise.",
-        error: error
-      })
+    res.status(500).json({
+      message: 'Something went wrong creating a new user exercise.',
+      error: error,
+    })
   }
 })
 
 router.get('/:userid/:exerciseid', async (req: Request, res: Response) => {
-  const { userid, exerciseid} = req.params
+  const { userid, exerciseid } = req.params
 
   try {
     if (req.isAuthenticated()) {
-
-      const userExercise = await userExerciseService.getUserExercises(parseInt(exerciseid), userid)
+      const userExercise = await userExerciseService.getUserExercises(
+        parseInt(exerciseid),
+        userid,
+      )
       res.status(200).json({
-        userExercise
+        userExercise,
       })
-
     } else {
       res.status(500).json({
-        message: "Error: Request is not authenticated"
+        message: 'Error: Request is not authenticated',
       })
     }
   } catch (error) {
-      res.status(500).json({
-        message: `Something went wrong we getting userexercise for userid: ${userid} exerciseid: ${exerciseid}`,
-        error: error
-      })
+    res.status(500).json({
+      message: `Something went wrong we getting userexercise for userid: ${userid} exerciseid: ${exerciseid}`,
+      error: error,
+    })
   }
 })
 

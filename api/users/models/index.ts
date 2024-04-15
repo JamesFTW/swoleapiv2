@@ -4,8 +4,8 @@ const prisma = new PrismaClient()
 declare global {
   namespace Express {
     interface User {
-      userId: string,
-      userName: string,
+      userId: string
+      userName: string
     }
   }
 }
@@ -18,7 +18,7 @@ export interface UserPayload {
   password: string
 }
 
-export class Users  {
+export class Users {
   async create(
     userName: string,
     firstName: string,
@@ -27,17 +27,17 @@ export class Users  {
     password: string,
     salt: string,
   ): Promise<void> {
-      try {
-        await prisma.users.create({
-          data: {
-            userName,
-            firstName,
-            lastName,
-            email,
-            password,
-            salt
-          }
-        })
+    try {
+      await prisma.users.create({
+        data: {
+          userName,
+          firstName,
+          lastName,
+          email,
+          password,
+          salt,
+        },
+      })
     } catch (error) {
       return Promise.reject(error)
     }
@@ -47,14 +47,13 @@ export class Users  {
     try {
       const user = await prisma.users.findUnique({
         where: {
-          userName: userName
-        }
+          userName: userName,
+        },
       })
       return user
-
     } catch (error) {
       throw new Error(
-        `An error occurred while fetching the userName: ${(error as Error).message}`
+        `An error occurred while fetching the userName: ${(error as Error).message}`,
       )
     }
   }
@@ -63,14 +62,13 @@ export class Users  {
     try {
       const user = await prisma.users.findUnique({
         where: {
-          userId: userId
-        }
+          userId: userId,
+        },
       })
       return user
-
     } catch (error) {
       throw new Error(
-        `An error occurred while fetching the userid: ${(error as Error).message}`
+        `An error occurred while fetching the userid: ${(error as Error).message}`,
       )
     }
   }
@@ -79,14 +77,13 @@ export class Users  {
     try {
       const user = await prisma.users.findUnique({
         where: {
-          email: email
-        }
+          email: email,
+        },
       })
       return user
-
     } catch (error) {
       throw new Error(
-        `An error occurred while fetching the userid: ${(error as Error).message}`
+        `An error occurred while fetching the userid: ${(error as Error).message}`,
       )
     }
   }

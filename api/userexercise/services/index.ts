@@ -13,10 +13,10 @@ export class UserExercisesServices {
     exerciseId: number,
     userId: string,
     weightMoved: number,
-    reps: number
+    reps: number,
   ): Promise<void> {
     try {
-      await prisma.$transaction(async (prisma) => {
+      await prisma.$transaction(async prisma => {
         const userExists = await prisma.users.findUnique({
           where: {
             userId: userId,
@@ -27,7 +27,7 @@ export class UserExercisesServices {
           throw new Error('User with the provided userId does not exist.')
         }
 
-         // @ts-ignore
+        // @ts-ignore
         const exerciseIdInt = parseInt(exerciseId)
 
         const exerciseExists = await prisma.exercises.findUnique({
@@ -37,13 +37,15 @@ export class UserExercisesServices {
         })
 
         if (!exerciseExists) {
-          throw new Error('Exercise with the provided exerciseId does not exist.')
+          throw new Error(
+            'Exercise with the provided exerciseId does not exist.',
+          )
         }
 
-         // @ts-ignore
+        // @ts-ignore
         const weightMovedInt = parseInt(weightMoved)
 
-         // @ts-ignore
+        // @ts-ignore
         const repsInt = parseInt(reps)
 
         await prisma.userExercises.create({
@@ -64,11 +66,17 @@ export class UserExercisesServices {
     }
   }
 
-  async getUserExercises(exerciseId: number, userId: string): Promise<UserExercises[] | undefined> {
+  async getUserExercises(
+    exerciseId: number,
+    userId: string,
+  ): Promise<UserExercises[] | undefined> {
     try {
-      const userExercise = await this.userExercise.getUserExercise(exerciseId, userId)
+      const userExercise = await this.userExercise.getUserExercise(
+        exerciseId,
+        userId,
+      )
       return userExercise
-    } catch(error) {
+    } catch (error) {
       return Promise.reject(error)
     }
   }

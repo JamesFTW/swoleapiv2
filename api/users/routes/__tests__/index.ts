@@ -30,7 +30,7 @@ describe('User Routes', () => {
   beforeEach(() => {
     app = express()
     app.use('/api/users/profile/photo', (req, res, next) => {
-      (req as any).isAuthenticated = mockIsAuthenticated
+      ;(req as any).isAuthenticated = mockIsAuthenticated
       next()
     })
     app.use('/api', api)
@@ -60,7 +60,7 @@ describe('User Routes', () => {
         mimetype: mockFile.mimetype,
         buffer: mockFile.buffer,
       }),
-      s3Buckets.PROFILE_PHOTOS
+      s3Buckets.PROFILE_PHOTOS,
     )
   })
 
@@ -73,8 +73,8 @@ describe('User Routes', () => {
     }
 
     const response = await request(app)
-    .post('/api/users/profile/photo')
-    .attach('file', mockFile.buffer, mockFile.originalname)
+      .post('/api/users/profile/photo')
+      .attach('file', mockFile.buffer, mockFile.originalname)
 
     expect(response.status).toBe(HTTP_STATUS_CODES.UNAUTHORIZED)
   })

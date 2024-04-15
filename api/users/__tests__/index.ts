@@ -28,7 +28,9 @@ describe('UsersServices', () => {
       const salt = 'salt123'
 
       // Mock the create method of Users
-      const createMock = jest.spyOn(usersModel, 'create').mockImplementation(() => Promise.resolve())
+      const createMock = jest
+        .spyOn(usersModel, 'create')
+        .mockImplementation(() => Promise.resolve())
 
       // Call the createUser method
       await usersServices.createUser(params, salt)
@@ -40,7 +42,7 @@ describe('UsersServices', () => {
         params.lastName,
         params.email,
         params.password,
-        salt
+        salt,
       )
     })
 
@@ -56,12 +58,16 @@ describe('UsersServices', () => {
       const salt = 'salt123'
 
       // Mock the create method of Users to throw an error
-      const createMock = jest.spyOn(usersModel, 'create').mockImplementation(() => {
-        throw new Error('Failed to create user')
-      })
+      const createMock = jest
+        .spyOn(usersModel, 'create')
+        .mockImplementation(() => {
+          throw new Error('Failed to create user')
+        })
 
       // Call the createUser method and expect it to reject with an error
-      await expect(usersServices.createUser(params, salt)).rejects.toThrowError('Failed to create user')
+      await expect(usersServices.createUser(params, salt)).rejects.toThrowError(
+        'Failed to create user',
+      )
     })
   })
 
@@ -80,18 +86,20 @@ describe('UsersServices', () => {
         userId: '123456',
         // Add other required properties here
       }
-    
+
       // Mock the getByEmail method of Users
       const getByEmailMock = jest
         .spyOn(usersModel, 'getByEmail')
-        .mockImplementation(async (email: string) => Promise.resolve(user as UsersPrisma | null))
-    
+        .mockImplementation(async (email: string) =>
+          Promise.resolve(user as UsersPrisma | null),
+        )
+
       // Call the getByEmail method
       const result = await usersServices.getByEmail(email)
-    
+
       // Expect the getByEmail method to have been called with the correct argument
       expect(getByEmailMock).toHaveBeenCalledWith(email)
-    
+
       // Expect the result to be the retrieved user
       expect(result).toEqual(user)
     })
@@ -101,12 +109,16 @@ describe('UsersServices', () => {
       const userName = 'john.doe'
 
       // Mock the getByUserName method of Users to throw an error
-      const getByUserNameMock = jest.spyOn(usersModel, 'getByUserName').mockImplementation(() => {
-        throw new Error('Failed to retrieve user by username')
-      })
+      const getByUserNameMock = jest
+        .spyOn(usersModel, 'getByUserName')
+        .mockImplementation(() => {
+          throw new Error('Failed to retrieve user by username')
+        })
 
       // Call the getByUserName method and expect it to reject with an error
-      await expect(usersServices.getByUserName(userName)).rejects.toThrowError('Failed to retrieve user by username')
+      await expect(usersServices.getByUserName(userName)).rejects.toThrowError(
+        'Failed to retrieve user by username',
+      )
     })
   })
 
@@ -125,18 +137,20 @@ describe('UsersServices', () => {
         userId: '123456',
         // Add other required properties here
       }
-    
+
       // Mock the getByEmail method of Users
       const getByEmailMock = jest
         .spyOn(usersModel, 'getByEmail')
-        .mockImplementation(async (email: string) => Promise.resolve(user as UsersPrisma | null))
-    
+        .mockImplementation(async (email: string) =>
+          Promise.resolve(user as UsersPrisma | null),
+        )
+
       // Call the getByEmail method
       const result = await usersServices.getByEmail(email)
 
       // Expect the getByEmail method to have been called with the correct argument
       expect(getByEmailMock).toHaveBeenCalledWith(email)
-    
+
       // Expect the result to be the retrieved user
       expect(result).toEqual(user)
     })
@@ -145,12 +159,16 @@ describe('UsersServices', () => {
       const email = 'john.doe@example.com'
 
       // Mock the getByEmail method of Users to throw an error
-      const getByEmailMock = jest.spyOn(usersModel, 'getByEmail').mockImplementation(() => {
-        throw new Error('Failed to retrieve user by email')
-      })
+      const getByEmailMock = jest
+        .spyOn(usersModel, 'getByEmail')
+        .mockImplementation(() => {
+          throw new Error('Failed to retrieve user by email')
+        })
 
       // Call the getByEmail method and expect it to reject with an error
-      await expect(usersServices.getByEmail(email)).rejects.toThrowError('Failed to retrieve user by email')
+      await expect(usersServices.getByEmail(email)).rejects.toThrowError(
+        'Failed to retrieve user by email',
+      )
     })
   })
 })

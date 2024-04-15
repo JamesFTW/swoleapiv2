@@ -11,7 +11,7 @@ const PgSession = pgSession(session)
 
 const sessionMiddleware = session({
   store: new PgSession({
-    conString: process.env.DATABASE_URL
+    conString: process.env.DATABASE_URL,
   }),
   secret: process.env.SESSION_SECRET!,
   resave: false,

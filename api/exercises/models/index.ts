@@ -1,25 +1,25 @@
 import { PrismaClient, Exercises as Exercise } from '@prisma/client'
 const prisma = new PrismaClient()
 
-export class Exercises  {
+export class Exercises {
   async create(
     exerciseName: string,
     targetMuscle: string,
     video: string,
     secondaryMuscles: Record<string, string>,
   ) {
-      try {
-        await prisma.exercises.create({
-          data: {
-            exerciseName,
-            targetMuscle,
-            video,
-            secondaryMuscles,
-          }
-        })
+    try {
+      await prisma.exercises.create({
+        data: {
+          exerciseName,
+          targetMuscle,
+          video,
+          secondaryMuscles,
+        },
+      })
     } catch (error) {
       throw new Error(
-        `An error occurred while creating a new exercise: ${(error as Error).message}`
+        `An error occurred while creating a new exercise: ${(error as Error).message}`,
       )
     }
   }
@@ -28,14 +28,13 @@ export class Exercises  {
     try {
       const exercise = await prisma.exercises.findUnique({
         where: {
-          exerciseId: exerciseId
-        }
+          exerciseId: exerciseId,
+        },
       })
       return exercise
-
     } catch (error) {
       throw new Error(
-        `An error occurred while fetching the exerciseId: ${(error as Error).message}`
+        `An error occurred while fetching the exerciseId: ${(error as Error).message}`,
       )
     }
   }
@@ -44,14 +43,13 @@ export class Exercises  {
     try {
       const exercise = await prisma.exercises.findUnique({
         where: {
-          exerciseName: exerciseName
-        }
+          exerciseName: exerciseName,
+        },
       })
       return exercise
-
     } catch (error) {
       throw new Error(
-        `An error occurred while fetching exerciseName: ${(error as Error).message}`
+        `An error occurred while fetching exerciseName: ${(error as Error).message}`,
       )
     }
   }
@@ -60,14 +58,13 @@ export class Exercises  {
     try {
       const allExercises = await prisma.exercises.findMany({
         orderBy: {
-          exerciseName: 'asc'
-        }
+          exerciseName: 'asc',
+        },
       })
       return allExercises
-
-    } catch(error) {
+    } catch (error) {
       throw new Error(
-        `An error occurred while fetching all exercises: ${(error as Error).message}`
+        `An error occurred while fetching all exercises: ${(error as Error).message}`,
       )
     }
   }
@@ -80,14 +77,13 @@ export class Exercises  {
         take: take,
         skip: skip,
         orderBy: {
-          exerciseName: 'asc'
-        }
+          exerciseName: 'asc',
+        },
       })
       return allExercises
-
-    } catch(error) {
+    } catch (error) {
       throw new Error(
-        `An error occurred while fetching all exercises: ${(error as Error).message}`
+        `An error occurred while fetching all exercises: ${(error as Error).message}`,
       )
     }
   }
