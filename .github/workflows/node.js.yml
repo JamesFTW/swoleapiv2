@@ -42,4 +42,4 @@ jobs:
         POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-      run: npm run test
+      run: npm run test --inspect
