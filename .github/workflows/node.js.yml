@@ -36,11 +36,10 @@ jobs:
         
     - name: Generate Prisma client
       run: npx prisma generate
-      env:
-        POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
       
     - name: Run integration tests
       env:
+        POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: npm run test
