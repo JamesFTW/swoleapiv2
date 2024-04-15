@@ -32,7 +32,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: supabase init
+    - run: supabase init --debug
     - run: supabase db start
     - run: npm run db:push
     - run: npm run db:seed
