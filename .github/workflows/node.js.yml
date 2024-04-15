@@ -45,12 +45,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: supabase/setup-cli@v1
+      with:
+        version: latest
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
+    - run: supabase init
+    - run: supabase db start
     - run: npm run db:push
     - run : npm run db:seed
     - run: npm test
