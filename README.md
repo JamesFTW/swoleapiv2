@@ -15,11 +15,8 @@ $ npm install
 # Install Supabase via Homebrew
 brew install supabase/tap/supabase
 
-# Create .env.development and add the following
-POSTGRES_PRISMA_URL='postgresql://postgres:postgres@127.0.0.1:54322/postgres'
-POSTGRES_URL_NON_POOLING='postgresql://postgres:postgres@127.0.0.1:54322/postgres'
-DATABASE_URL='postgresql://postgres:postgres@127.0.0.1:54322/postgres'
-SESSION_SECRET='<Generate Session Secret>'
+# Follow instructions for additional set up from out Notion
+https://www.notion.so/Dev-Server-Set-Up-Instructions-43823ef93ae34ef3b4a7c9a78a827952
 
 # Run the app
 $ npm run start:dev
