@@ -12,6 +12,15 @@ $ cd swoleapiv2
 # Install dependencies
 $ npm install
 
+# Install Supabase via Homebrew
+brew install supabase/tap/supabase
+
+# Create .env.development and add the following
+POSTGRES_PRISMA_URL='postgresql://postgres:postgres@127.0.0.1:54322/postgres'
+POSTGRES_URL_NON_POOLING='postgresql://postgres:postgres@127.0.0.1:54322/postgres'
+DATABASE_URL='postgresql://postgres:postgres@127.0.0.1:54322/postgres'
+SESSION_SECRET='<Generate Session Secret>'
+
 # Run the app
 $ npm run start:dev
 
