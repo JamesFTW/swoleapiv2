@@ -9,10 +9,16 @@ import { uploadFile } from '../../utils/s3Upload'
 import { s3Buckets } from '../../config/s3.config'
 import { authenticate } from '../../middleware/authenticate'
 import { MIME_TYPES, HTTP_STATUS_CODES } from '../../config/http.config'
+import { v4 as uuidv4 } from 'uuid'
 
 const router = express.Router()
 const usersServices = new UsersServices()
-const upload = multer()
+const upload = multer({
+  limits: {
+    fileSize: Infinity,
+    fieldSize: Infinity,
+  },
+});
 
 router.get('/', authenticate, (req: Request, res: Response) => {
   try {
@@ -105,6 +111,13 @@ router.post(
           .status(HTTP_STATUS_CODES.BAD_REQUEST)
           .send('File type not supported.')
       }
+
+      //TODO: Add photo scaling
+
+      const timestamp = new Date().toISOString().replace(/[-:]/g, '');
+      const randomFilename = `${timestamp}-${uuidv4()}.${file.originalname.split('.').pop()}`;
+
+      file.originalname = randomFilename;
 
       uploadFile(file, s3Buckets.PROFILE_PHOTOS)
       res.status(HTTP_STATUS_CODES.OK).send('File uploaded successfully.')
