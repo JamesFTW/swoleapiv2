@@ -8,10 +8,17 @@ const AWS_REGIONS = {
   US_WEST_OREGON: 'us-west-2',
 }
 
+export const s3Buckets = {
+  PROFILE_PHOTOS: 'swole-users-profile-photos',
+}
+
 export const config = {
   region: AWS_REGIONS.US_WEST_N_CALIFORNIA,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+  },
+  s3Buckets: {
+    PROFILE_PHOTOS: s3Buckets.PROFILE_PHOTOS,
   },
 }

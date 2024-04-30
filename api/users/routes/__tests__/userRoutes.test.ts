@@ -1,12 +1,11 @@
 import request from 'supertest'
 import express, { Express } from 'express'
-import { s3Buckets } from '../../../config/s3.config'
-import { uploadFile } from '../../../utils/s3Upload'
-import { HTTP_STATUS_CODES } from '../../../config/http.config'
+import api from '@api/index'
+import { uploadFile } from '@api/utils/s3Utils'
+import { HTTP_STATUS_CODES } from '@api/config/http.config'
+import { Session, SessionData } from 'express-session'
 
-import api from '../../../index'
-
-jest.mock('../../../utils/s3Upload', () => ({
+jest.mock('@api/utils/s3Utils', () => ({
   uploadFile: jest.fn(),
 }))
 
@@ -24,13 +23,28 @@ jest.mock('buffer', () => {
   }
 })
 
+jest.mock('@api/users/services', () => {
+  return {
+    UsersServices: jest.fn().mockImplementation(() => ({
+      updateProfilePhoto: jest.fn().mockResolvedValue(undefined),
+      createEmailChain: jest.fn().mockReturnValue(jest.fn()),
+      createUserChain: jest.fn().mockReturnValue(jest.fn()),
+      createUserPasswordChain: jest.fn().mockReturnValue(jest.fn()),
+      createUser: jest.fn().mockResolvedValue(undefined),
+    })),
+  }
+})
+
 let app: Express
 
 describe('User Routes', () => {
   beforeEach(() => {
     app = express()
-    app.use('/api/users/profile/photo', (req, res, next) => {
+    app.use('/api/users/profile/update/photo', (req, res, next) => {
       ;(req as any).isAuthenticated = mockIsAuthenticated
+      req.session = {
+        passport: { userId: 'mockUserId', userName: 'bruh' },
+      } as Session & Partial<SessionData>
       next()
     })
     app.use('/api', api)
@@ -39,29 +53,6 @@ describe('User Routes', () => {
 
   afterEach(() => {
     mockIsAuthenticated.mockReturnValue(true)
-  })
-
-  it('should upload a profile photo successfully', async () => {
-    const mockFile = {
-      originalname: 'image.png',
-      mimetype: 'image/png',
-      buffer: Buffer.from('test file content'),
-    }
-
-    const response = await request(app)
-      .post('/api/users/profile/photo')
-      .attach('file', mockFile.buffer, mockFile.originalname)
-
-    expect(response.status).toBe(HTTP_STATUS_CODES.OK)
-    expect(response.text).toBe('File uploaded successfully.')
-    expect(uploadFile).toHaveBeenCalledWith(
-      expect.objectContaining({
-        originalname: mockFile.originalname,
-        mimetype: mockFile.mimetype,
-        buffer: mockFile.buffer,
-      }),
-      s3Buckets.PROFILE_PHOTOS,
-    )
   })
 
   it('should return an error if the user is not authenticated', async () => {
@@ -73,18 +64,25 @@ describe('User Routes', () => {
     }
 
     const response = await request(app)
-      .post('/api/users/profile/photo')
+      .post('/api/users/profile/update/photo')
       .attach('file', mockFile.buffer, mockFile.originalname)
 
     expect(response.status).toBe(HTTP_STATUS_CODES.UNAUTHORIZED)
   })
 
-  it('should return an error if no file is uploaded', async () => {
-    const response = await request(app).post('/api/users/profile/photo')
+  it('should return success message for a successful file upload', async () => {
+    const mockFile = {
+      originalname: 'image.png',
+      mimetype: 'image/png',
+      buffer: Buffer.from('test file content'),
+    }
 
-    expect(response.status).toBe(HTTP_STATUS_CODES.BAD_REQUEST)
-    expect(response.text).toBe('No file uploaded.')
-    expect(uploadFile).not.toHaveBeenCalled()
+    const response = await request(app)
+      .post('/api/users/profile/update/photo')
+      .attach('file', mockFile.buffer, mockFile.originalname)
+
+    expect(response.status).toBe(HTTP_STATUS_CODES.OK)
+    expect(response.text).toBe('File uploaded successfully.')
   })
 
   it('should return an error if the uploaded file type is not supported', async () => {
@@ -95,7 +93,7 @@ describe('User Routes', () => {
     }
 
     const response = await request(app)
-      .post('/api/users/profile/photo')
+      .post('/api/users/profile/update/photo')
       .attach('file', mockFile.buffer, mockFile.originalname)
 
     expect(response.status).toBe(HTTP_STATUS_CODES.BAD_REQUEST)

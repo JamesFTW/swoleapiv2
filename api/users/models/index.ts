@@ -12,19 +12,36 @@ declare global {
 
 export interface UserPayload {
   userName: string
-  firstName: string
-  lastName: string
+  firstName?: string
+  lastName?: string
   email: string
   password: string
+  profilePhoto: string
+  bio?: string
+}
+
+export interface UserUpdateData {
+  firstName?: string
+  lastName?: string
+  profilePhoto?: string
+  bio?: string
+}
+
+export const userUpdateDataObj: Record<keyof UserUpdateData, any> = {
+  firstName: 'string',
+  lastName: 'string',
+  profilePhoto: 'string',
+  bio: 'string',
 }
 
 export class Users {
   async create(
     userName: string,
-    firstName: string,
-    lastName: string,
+    firstName: string | undefined,
+    lastName: string | undefined,
     email: string,
     password: string,
+    profilePhoto: string | undefined,
     salt: string,
   ): Promise<void> {
     try {
@@ -35,6 +52,7 @@ export class Users {
           lastName,
           email,
           password,
+          profilePhoto,
           salt,
         },
       })
@@ -84,6 +102,43 @@ export class Users {
     } catch (error) {
       throw new Error(
         `An error occurred while fetching the userid: ${(error as Error).message}`,
+      )
+    }
+  }
+
+  async updateProfile(userId: string, data: UserUpdateData): Promise<void> {
+    try {
+      await prisma.users.update({
+        where: {
+          userId: userId,
+        },
+        data: {
+          ...data,
+        },
+      })
+    } catch (error) {
+      throw new Error(
+        `An error occurred while updating the profile: ${(error as Error).message}`,
+      )
+    }
+  }
+
+  async updateProfilePhoto(
+    userId: string,
+    profilePhoto: string,
+  ): Promise<void> {
+    try {
+      await prisma.users.update({
+        where: {
+          userId: userId,
+        },
+        data: {
+          profilePhoto: profilePhoto,
+        },
+      })
+    } catch (error) {
+      throw new Error(
+        `An error occurred while updating the profile photo: ${(error as Error).message}`,
       )
     }
   }
