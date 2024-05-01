@@ -84,13 +84,20 @@
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",
     "helmet": "^6.1.5",
+    "module-alias": "^2.2.3",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.3.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "prisma-import": "^1.0.4"
+    "prisma-import": "^1.0.4",
+    "sharp": "^0.33.3"
   },
   "lint-staged": {
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,ts,css,md}": "prettier --write"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@api": "./api",
+    "@middleware": "./api/middleware"
   }
 }

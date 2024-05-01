@@ -1,3 +1,4 @@
+require('module-alias/register')
 import express, { Express } from 'express'
 import helmet from 'helmet'
 import passport from 'passport'

@@ -3,13 +3,11 @@ import multer from 'multer'
 import passport from '../authentication'
 import express, { Request, Response } from 'express'
 import { UsersServices } from '../services'
-import { UserPayload } from '../models'
+import { UserPayload, userUpdateDataObj } from '../models'
 import { validationResult } from 'express-validator'
-import { uploadFile } from '../../utils/s3Upload'
-import { s3Buckets } from '../../config/s3.config'
-import { authenticate } from '../../middleware/authenticate'
-import { MIME_TYPES, HTTP_STATUS_CODES } from '../../config/http.config'
-import { v4 as uuidv4 } from 'uuid'
+import { authenticate } from '@middleware/authenticate'
+import { MIME_TYPES, HTTP_STATUS_CODES } from '@api/config/http.config'
+import { UserUpdateData } from '../models'
 
 const router = express.Router()
 const usersServices = new UsersServices()
@@ -18,7 +16,7 @@ const upload = multer({
     fileSize: Infinity,
     fieldSize: Infinity,
   },
-});
+})
 
 router.get('/', authenticate, (req: Request, res: Response) => {
   try {
@@ -38,10 +36,6 @@ router.post(
   usersServices.createUserChain(),
   usersServices.createUserPasswordChain(),
   async (req: Request, res: Response, next) => {
-    /**TODO:
-     * Get passord chain working correctly
-     */
-
     const userPayload: UserPayload = req.body
     const salt: string = await bcrypt.genSalt(16)
 
@@ -93,12 +87,12 @@ router.get('/profile', authenticate, async (req: Request, res: Response) => {
 })
 
 router.post(
-  '/profile/photo',
+  '/profile/update/photo',
   authenticate,
   upload.single('file'),
   async (req: Request, res: Response) => {
     try {
-      const { file } = req
+      const { file, session } = req
 
       if (!file) {
         return res
@@ -112,18 +106,45 @@ router.post(
           .send('File type not supported.')
       }
 
-      //TODO: Add photo scaling
+      await usersServices.updateProfilePhoto(
+        session.passport?.user?.userId,
+        file,
+      )
 
-      const timestamp = new Date().toISOString().replace(/[-:]/g, '');
-      const randomFilename = `${timestamp}-${uuidv4()}.${file.originalname.split('.').pop()}`;
-
-      file.originalname = randomFilename;
-
-      uploadFile(file, s3Buckets.PROFILE_PHOTOS)
       res.status(HTTP_STATUS_CODES.OK).send('File uploaded successfully.')
     } catch (e) {
       res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({
         message: 'Error uploading profile photo:',
+        error: e,
+      })
+    }
+  },
+)
+
+router.put(
+  '/profile/update',
+  authenticate,
+  async (req: Request, res: Response) => {
+    try {
+      const { session } = req
+      const data: UserUpdateData = req.body
+
+      const validFields = Object.keys(data).every(field =>
+        Object.keys(userUpdateDataObj).includes(field),
+      )
+      if (!validFields) {
+        res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({
+          message: 'Error updating profile:',
+          error: 'Invalid field in profile update request body',
+        })
+      }
+
+      await usersServices.updateProfile(session.passport?.user?.userId, data)
+
+      res.status(HTTP_STATUS_CODES.OK).send('Profile updated successfully.')
+    } catch (e) {
+      res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({
+        message: 'Error updating profile:',
         error: e,
       })
     }
