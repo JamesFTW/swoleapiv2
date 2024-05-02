@@ -7,6 +7,15 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import api from './api'
 import pgSession from 'connect-pg-simple'
+import * as Sentry from '@sentry/node'
+
+const app: Express = express()
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+  integrations: [new Sentry.Integrations.Express({ router: api })],
+})
 
 const PgSession = pgSession(session)
 
@@ -20,9 +29,10 @@ const sessionMiddleware = session({
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
 })
 
-const app: Express = express()
 const port = process.env.PORT
 
+app.use(Sentry.Handlers.requestHandler())
+app.use(Sentry.Handlers.errorHandler())
 app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
@@ -31,11 +41,10 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(passport.authenticate('session'))
 app.use(helmet())
+app.use('/api', api)
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
 })
-
-app.use('/api', api)
 
 module.exports = app
