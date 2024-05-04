@@ -1,6 +1,6 @@
-import { UsersServices } from '../../services'
+import { UsersServices } from '../../services/UserServices'
 import { Users as UsersPrisma } from '@prisma/client'
-import { Users } from '../../models'
+import { Users } from '../Users'
 
 describe('UsersServices', () => {
   let usersServices: UsersServices

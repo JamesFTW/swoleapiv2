@@ -23,7 +23,7 @@ jest.mock('buffer', () => {
   }
 })
 
-jest.mock('@api/users/services', () => {
+jest.mock('@api/users/services/UserServices.ts', () => {
   return {
     UsersServices: jest.fn().mockImplementation(() => ({
       updateProfilePhoto: jest.fn().mockResolvedValue(undefined),

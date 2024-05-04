@@ -1,13 +1,14 @@
 import bcrypt from 'bcrypt'
 import multer from 'multer'
 import passport from '../authentication'
-import express, { Request, Response } from 'express'
-import { UsersServices } from '../services'
-import { UserPayload, userUpdateDataObj } from '../models'
+import express, { NextFunction, Request, Response } from 'express'
+import { UsersServices } from '../services/UserServices'
+import { UserPayload, userUpdateDataObj } from '../models/Users'
 import { validationResult } from 'express-validator'
 import { authenticate } from '@middleware/authenticate'
 import { MIME_TYPES, HTTP_STATUS_CODES } from '@api/config/http.config'
-import { UserUpdateData } from '../models'
+import { UserUpdateData } from '../models/Users'
+import Sentry from '@sentry/node'
 
 const router = express.Router()
 const usersServices = new UsersServices()
@@ -113,6 +114,8 @@ router.post(
 
       res.status(HTTP_STATUS_CODES.OK).send('File uploaded successfully.')
     } catch (e) {
+      console.error('Error uploading profile photo:', e)
+
       res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({
         message: 'Error uploading profile photo:',
         error: e,
@@ -132,20 +135,20 @@ router.put(
       const validFields = Object.keys(data).every(field =>
         Object.keys(userUpdateDataObj).includes(field),
       )
+
       if (!validFields) {
-        res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({
-          message: 'Error updating profile:',
-          error: 'Invalid field in profile update request body',
-        })
+        throw new Error('Invalid fields in request.')
       }
 
       await usersServices.updateProfile(session.passport?.user?.userId, data)
 
-      res.status(HTTP_STATUS_CODES.OK).send('Profile updated successfully.')
-    } catch (e) {
-      res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({
+      return res
+        .status(HTTP_STATUS_CODES.OK)
+        .send('Profile updated successfully.')
+    } catch (e: any) {
+      res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).send({
         message: 'Error updating profile:',
-        error: e,
+        error: e.message,
       })
     }
   },

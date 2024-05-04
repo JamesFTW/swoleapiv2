@@ -1,5 +1,5 @@
 import express from 'express'
-import usersRoutes from './users/routes'
+import usersRoutes from './users/routes/userRoutes'
 import exercisesRoutes from './exercises/routes'
 import userExercisesRoutes from './userexercise/routes'
 

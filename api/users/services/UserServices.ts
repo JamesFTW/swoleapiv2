@@ -1,6 +1,6 @@
 import { ValidationChain, body } from 'express-validator'
 import { Users as User } from '@prisma/client'
-import { Users, UserPayload, UserUpdateData } from '../models'
+import { Users, UserPayload, UserUpdateData } from '../models/Users'
 import { uploadFile, deleteFile } from '@api/utils/s3Utils'
 import { config } from '@api/config/aws.config'
 import { v4 as uuidv4 } from 'uuid'

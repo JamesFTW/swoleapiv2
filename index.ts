@@ -14,7 +14,10 @@ const app: Express = express()
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   tracesSampleRate: 1.0,
-  integrations: [new Sentry.Integrations.Express({ router: api })],
+  integrations: [
+    new Sentry.Integrations.Express({ router: api }),
+    new Sentry.Integrations.Http({ tracing: true }),
+  ],
 })
 
 const PgSession = pgSession(session)
