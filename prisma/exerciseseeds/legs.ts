@@ -130,18 +130,14 @@ export const legs = [
   {
     exerciseName: 'Jump Squat',
     targetMuscle: 'Legs',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Glutes', secondaryMuscle2: 'Hamstrings' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Glutes', secondaryMuscle2: 'Hamstrings' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
   {
     exerciseName: 'Wall Sit',
     targetMuscle: 'Legs',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Glutes', secondaryMuscle2: 'Hamstrings' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Glutes', secondaryMuscle2: 'Hamstrings' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },

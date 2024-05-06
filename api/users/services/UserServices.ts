@@ -64,9 +64,7 @@ export class UsersServices {
         salt,
       )
     } catch (error) {
-      return Promise.reject(
-        new Error(`Failed to create user: ${(error as Error).message}`),
-      )
+      return Promise.reject(new Error(`Failed to create user: ${(error as Error).message}`))
     }
   }
 
@@ -75,9 +73,7 @@ export class UsersServices {
       return this.users?.getByUserName(userName)
     } catch (error) {
       return Promise.reject(
-        new Error(
-          `Failed to retrieve user by username: ${(error as Error).message}`,
-        ),
+        new Error(`Failed to retrieve user by username: ${(error as Error).message}`),
       )
     }
   }
@@ -93,9 +89,7 @@ export class UsersServices {
       return user
     } catch (error) {
       return Promise.reject(
-        new Error(
-          `Failed to retrieve user by email: ${(error as Error).message}`,
-        ),
+        new Error(`Failed to retrieve user by email: ${(error as Error).message}`),
       )
     }
   }
@@ -112,17 +106,12 @@ export class UsersServices {
       return userInfo
     } catch (error) {
       return Promise.reject(
-        new Error(
-          `Failed to retrieve user by user ID: ${(error as Error).message}`,
-        ),
+        new Error(`Failed to retrieve user by user ID: ${(error as Error).message}`),
       )
     }
   }
 
-  async updateProfile(
-    userId: string,
-    data: UserUpdateData,
-  ): Promise<void | Error> {
+  async updateProfile(userId: string, data: UserUpdateData): Promise<void | Error> {
     try {
       await this.users?.updateProfile(userId, data)
     } catch (error) {
@@ -140,17 +129,14 @@ export class UsersServices {
     return resizedImage
   }
 
-  async updateProfilePhoto(
-    userId: string,
-    file: Express.Multer.File,
-  ): Promise<void> {
+  async updateProfilePhoto(userId: string, file: Express.Multer.File): Promise<void> {
     try {
       const resizedImage = await this.resizeImage(file)
-      file.buffer = resizedImage
-      file.size = resizedImage.byteLength
-
       const timestamp = new Date().toISOString().replace(/[-:]/g, '')
       const randomFilename = `${timestamp}-${uuidv4()}.${file?.originalname.split('.').pop()}`
+
+      file.buffer = resizedImage
+      file.size = resizedImage.byteLength
       file.originalname = randomFilename
 
       const fileUrl = `https://${config.s3Buckets.PROFILE_PHOTOS}.s3.${config.region}.amazonaws.com/${randomFilename}`
@@ -158,6 +144,7 @@ export class UsersServices {
       await uploadFile(file, config.s3Buckets.PROFILE_PHOTOS)
 
       const userInfo = await this.getByUserId(userId)
+
       if (userInfo?.profilePhoto) {
         const oldFilename = userInfo.profilePhoto.split('/').pop()
         deleteFile(config.s3Buckets.PROFILE_PHOTOS, oldFilename)
@@ -166,9 +153,7 @@ export class UsersServices {
       await this.users?.updateProfilePhoto(userId, fileUrl)
     } catch (error) {
       return Promise.reject(
-        new Error(
-          `Failed to update profile photo: ${(error as Error).message}`,
-        ),
+        new Error(`Failed to update profile photo: ${(error as Error).message}`),
       )
     }
   }

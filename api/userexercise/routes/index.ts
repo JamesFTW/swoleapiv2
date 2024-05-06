@@ -32,10 +32,7 @@ router.get('/:userid/:exerciseid', async (req: Request, res: Response) => {
 
   try {
     if (req.isAuthenticated()) {
-      const userExercise = await userExerciseService.getUserExercises(
-        parseInt(exerciseid),
-        userid,
-      )
+      const userExercise = await userExerciseService.getUserExercises(parseInt(exerciseid), userid)
       res.status(200).json({
         userExercise,
       })

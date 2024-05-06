@@ -72,9 +72,7 @@ export class Users {
       })
       return user
     } catch (error) {
-      throw new Error(
-        `An error occurred while fetching the userName: ${(error as Error).message}`,
-      )
+      throw new Error(`An error occurred while fetching the userName: ${(error as Error).message}`)
     }
   }
 
@@ -87,9 +85,7 @@ export class Users {
       })
       return user
     } catch (error) {
-      throw new Error(
-        `An error occurred while fetching the userid: ${(error as Error).message}`,
-      )
+      throw new Error(`An error occurred while fetching the userid: ${(error as Error).message}`)
     }
   }
 
@@ -102,9 +98,7 @@ export class Users {
       })
       return user
     } catch (error) {
-      throw new Error(
-        `An error occurred while fetching the userid: ${(error as Error).message}`,
-      )
+      throw new Error(`An error occurred while fetching the userid: ${(error as Error).message}`)
     }
   }
 
@@ -119,16 +113,11 @@ export class Users {
         },
       })
     } catch (error) {
-      throw new Error(
-        `An error occurred while updating the profile: ${(error as Error).message}`,
-      )
+      throw new Error(`An error occurred while updating the profile: ${(error as Error).message}`)
     }
   }
 
-  async updateProfilePhoto(
-    userId: string,
-    profilePhoto: string,
-  ): Promise<void> {
+  async updateProfilePhoto(userId: string, profilePhoto: string): Promise<void> {
     try {
       await prisma.users.update({
         where: {

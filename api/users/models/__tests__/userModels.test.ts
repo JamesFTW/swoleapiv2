@@ -55,11 +55,9 @@ describe('UsersServices', () => {
       }
       const salt = 'salt123'
 
-      const createMock = jest
-        .spyOn(usersModel, 'create')
-        .mockImplementation(() => {
-          throw new Error('Failed to create user')
-        })
+      const createMock = jest.spyOn(usersModel, 'create').mockImplementation(() => {
+        throw new Error('Failed to create user')
+      })
 
       await expect(usersServices.createUser(params, salt)).rejects.toThrowError(
         'Failed to create user',
@@ -83,9 +81,7 @@ describe('UsersServices', () => {
 
       const getByEmailMock = jest
         .spyOn(usersModel, 'getByEmail')
-        .mockImplementation(async (email: string) =>
-          Promise.resolve(user as UsersPrisma | null),
-        )
+        .mockImplementation(async (email: string) => Promise.resolve(user as UsersPrisma | null))
 
       const result = await usersServices.getByEmail(email)
 
@@ -97,11 +93,9 @@ describe('UsersServices', () => {
     it('should reject with an error if retrieval fails', async () => {
       const userName = 'john.doe'
 
-      const getByUserNameMock = jest
-        .spyOn(usersModel, 'getByUserName')
-        .mockImplementation(() => {
-          throw new Error('Failed to retrieve user by username')
-        })
+      const getByUserNameMock = jest.spyOn(usersModel, 'getByUserName').mockImplementation(() => {
+        throw new Error('Failed to retrieve user by username')
+      })
 
       await expect(usersServices.getByUserName(userName)).rejects.toThrowError(
         'Failed to retrieve user by username',
@@ -125,9 +119,7 @@ describe('UsersServices', () => {
 
       const getByEmailMock = jest
         .spyOn(usersModel, 'getByEmail')
-        .mockImplementation(async (email: string) =>
-          Promise.resolve(user as UsersPrisma | null),
-        )
+        .mockImplementation(async (email: string) => Promise.resolve(user as UsersPrisma | null))
 
       const result = await usersServices.getByEmail(email)
 
@@ -138,11 +130,9 @@ describe('UsersServices', () => {
     it('should reject with an error if retrieval fails', async () => {
       const email = 'john.doe@example.com'
 
-      const getByEmailMock = jest
-        .spyOn(usersModel, 'getByEmail')
-        .mockImplementation(() => {
-          throw new Error('Failed to retrieve user by email')
-        })
+      const getByEmailMock = jest.spyOn(usersModel, 'getByEmail').mockImplementation(() => {
+        throw new Error('Failed to retrieve user by email')
+      })
 
       await expect(usersServices.getByEmail(email)).rejects.toThrowError(
         'Failed to retrieve user by email',

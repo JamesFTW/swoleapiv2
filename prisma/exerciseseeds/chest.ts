@@ -2,9 +2,7 @@ export const chest = [
   {
     exerciseName: 'Barbell Bench Press',
     targetMuscle: 'Chest',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Triceps' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Triceps' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
@@ -24,27 +22,21 @@ export const chest = [
   {
     exerciseName: 'Incline Bench Press',
     targetMuscle: 'Chest',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Triceps' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Triceps' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
   {
     exerciseName: 'Decline Press',
     targetMuscle: 'Chest',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Triceps' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Triceps' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
   {
     exerciseName: 'Machine Chest Press',
     targetMuscle: 'Chest',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Triceps' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Triceps' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
@@ -71,18 +63,14 @@ export const chest = [
   {
     exerciseName: 'Machine Chest Fly',
     targetMuscle: 'Chest',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Biceps' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Biceps' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
   {
     exerciseName: 'Incline Dumbbell Fly',
     targetMuscle: 'Chest',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Biceps', secondaryMuscle2: 'Shoulders' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Biceps', secondaryMuscle2: 'Shoulders' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
@@ -103,9 +91,7 @@ export const chest = [
   {
     exerciseName: 'Floor Press',
     targetMuscle: 'Chest',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Triceps' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Triceps' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },

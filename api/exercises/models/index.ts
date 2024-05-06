@@ -48,9 +48,7 @@ export class Exercises {
       })
       return exercise
     } catch (error) {
-      throw new Error(
-        `An error occurred while fetching exerciseName: ${(error as Error).message}`,
-      )
+      throw new Error(`An error occurred while fetching exerciseName: ${(error as Error).message}`)
     }
   }
 
@@ -63,9 +61,7 @@ export class Exercises {
       })
       return allExercises
     } catch (error) {
-      throw new Error(
-        `An error occurred while fetching all exercises: ${(error as Error).message}`,
-      )
+      throw new Error(`An error occurred while fetching all exercises: ${(error as Error).message}`)
     }
   }
 
@@ -82,9 +78,7 @@ export class Exercises {
       })
       return allExercises
     } catch (error) {
-      throw new Error(
-        `An error occurred while fetching all exercises: ${(error as Error).message}`,
-      )
+      throw new Error(`An error occurred while fetching all exercises: ${(error as Error).message}`)
     }
   }
 }

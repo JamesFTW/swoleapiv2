@@ -37,9 +37,7 @@ export class UserExercisesServices {
         })
 
         if (!exerciseExists) {
-          throw new Error(
-            'Exercise with the provided exerciseId does not exist.',
-          )
+          throw new Error('Exercise with the provided exerciseId does not exist.')
         }
 
         // @ts-ignore
@@ -66,15 +64,9 @@ export class UserExercisesServices {
     }
   }
 
-  async getUserExercises(
-    exerciseId: number,
-    userId: string,
-  ): Promise<UserExercises[] | undefined> {
+  async getUserExercises(exerciseId: number, userId: string): Promise<UserExercises[] | undefined> {
     try {
-      const userExercise = await this.userExercise.getUserExercise(
-        exerciseId,
-        userId,
-      )
+      const userExercise = await this.userExercise.getUserExercise(exerciseId, userId)
       return userExercise
     } catch (error) {
       return Promise.reject(error)

@@ -9,15 +9,9 @@ router.post('/create', async (req: Request, res: Response) => {
     if (req.body) {
       if (req.isAuthenticated()) {
         const exercisesPayload = req.body
-        const { exerciseName, targetMuscle, video, secondaryMuscles } =
-          exercisesPayload
+        const { exerciseName, targetMuscle, video, secondaryMuscles } = exercisesPayload
 
-        await exerciseService.createExercise(
-          exerciseName,
-          targetMuscle,
-          video,
-          secondaryMuscles,
-        )
+        await exerciseService.createExercise(exerciseName, targetMuscle, video, secondaryMuscles)
 
         res.sendStatus(200)
       } else {
@@ -57,8 +51,7 @@ router.get('/workoutPagePreview', async (req: Request, res: Response) => {
   try {
     if (req.isAuthenticated()) {
       const exerciseCount = 5
-      const previewExercises =
-        await exerciseService.getPreviewExercises(exerciseCount)
+      const previewExercises = await exerciseService.getPreviewExercises(exerciseCount)
       res.status(200).json({
         previewExercises,
       })
@@ -71,29 +64,26 @@ router.get('/workoutPagePreview', async (req: Request, res: Response) => {
   }
 })
 
-router.get(
-  '/:exerciseId',
-  async (req: Request<{ exerciseId: string }>, res: Response) => {
-    const { exerciseId } = req.params
+router.get('/:exerciseId', async (req: Request<{ exerciseId: string }>, res: Response) => {
+  const { exerciseId } = req.params
 
-    try {
-      if (req.isAuthenticated()) {
-        if (exerciseId) {
-          const exerciseIdInt = parseInt(exerciseId)
-          const exercise = await exerciseService.getExerciseById(exerciseIdInt)
+  try {
+    if (req.isAuthenticated()) {
+      if (exerciseId) {
+        const exerciseIdInt = parseInt(exerciseId)
+        const exercise = await exerciseService.getExerciseById(exerciseIdInt)
 
-          res.status(200).json({
-            exercise,
-          })
-        }
+        res.status(200).json({
+          exercise,
+        })
       }
-    } catch (e) {
-      res.status(500).json({
-        message: 'Something went wrong getting exerciseID.',
-        error: e,
-      })
     }
-  },
-)
+  } catch (e) {
+    res.status(500).json({
+      message: 'Something went wrong getting exerciseID.',
+      error: e,
+    })
+  }
+})
 
 export default router

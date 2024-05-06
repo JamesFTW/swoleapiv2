@@ -3,7 +3,7 @@
     "baseUrl": "./",
     "paths": {
       "@api/*": ["./api/*"],
-      "@middleware/*": ["./api/middleware/*"],
+      "@middleware/*": ["./api/middleware/*"]
     },
     /* Visit https://aka.ms/tsconfig to read more about this file */
 

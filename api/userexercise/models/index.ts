@@ -22,10 +22,7 @@ export class UserExercisesModel {
     }
   }
 
-  async getUserExercise(
-    exerciseId: number,
-    userId: string,
-  ): Promise<UserExercises[] | undefined> {
+  async getUserExercise(exerciseId: number, userId: string): Promise<UserExercises[] | undefined> {
     try {
       const userExercise = await prisma.userExercises.findMany({
         where: {

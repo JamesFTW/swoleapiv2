@@ -2,9 +2,7 @@ export const back = [
   {
     exerciseName: 'Barbell Deadlift',
     targetMuscle: 'Back',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Hamstrings', secondaryMuscle2: ' Glutes' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Hamstrings', secondaryMuscle2: ' Glutes' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },
@@ -37,9 +35,7 @@ export const back = [
   {
     exerciseName: 'Dumbbell Single-Arm Row',
     targetMuscle: 'Back',
-    secondaryMuscles: [
-      { secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Lats' },
-    ],
+    secondaryMuscles: [{ secondaryMuscle1: 'Shoulders', secondaryMuscle2: 'Lats' }],
     video:
       'https://cdn.shopify.com/s/files/1/1876/4703/articles/shutterstock_1079398565_2560x.jpg?v=1591108584',
   },

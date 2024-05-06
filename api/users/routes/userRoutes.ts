@@ -74,9 +74,7 @@ router.post(
 
 router.get('/profile', authenticate, async (req: Request, res: Response) => {
   const { session } = req
-  const userInfo = await usersServices.getByUserId(
-    session.passport?.user?.userId,
-  )
+  const userInfo = await usersServices.getByUserId(session.passport?.user?.userId)
 
   res.status(HTTP_STATUS_CODES.OK).json({
     ...userInfo,
@@ -92,21 +90,14 @@ router.post(
       const { file, session } = req
 
       if (!file) {
-        return res
-          .status(HTTP_STATUS_CODES.BAD_REQUEST)
-          .send('No file uploaded.')
+        return res.status(HTTP_STATUS_CODES.BAD_REQUEST).send('No file uploaded.')
       }
 
       if (!MIME_TYPES[file.mimetype]) {
-        return res
-          .status(HTTP_STATUS_CODES.BAD_REQUEST)
-          .send('File type not supported.')
+        return res.status(HTTP_STATUS_CODES.BAD_REQUEST).send('File type not supported.')
       }
 
-      await usersServices.updateProfilePhoto(
-        session.passport?.user?.userId,
-        file,
-      )
+      await usersServices.updateProfilePhoto(session.passport?.user?.userId, file)
 
       res.status(HTTP_STATUS_CODES.OK).send('File uploaded successfully.')
     } catch (e) {
@@ -120,39 +111,33 @@ router.post(
   },
 )
 
-router.put(
-  '/profile/update',
-  authenticate,
-  async (req: Request, res: Response) => {
-    try {
-      const { session } = req
-      const data: UserUpdateData = req.body
+router.put('/profile/update', authenticate, async (req: Request, res: Response) => {
+  try {
+    const { session } = req
+    const data: UserUpdateData = req.body
 
-      /**
-       * TODO: Validate fields in request.
-       */
+    /**
+     * TODO: Validate fields in request.
+     */
 
-      // const validFields = Object.keys(data).every(field =>
-      //   Object.keys(userUpdateDataObj).includes(field),
-      // )
+    // const validFields = Object.keys(data).every(field =>
+    //   Object.keys(userUpdateDataObj).includes(field),
+    // )
 
-      // if (!validFields) {
-      //   throw new Error('Invalid fields in request.')
-      // }
+    // if (!validFields) {
+    //   throw new Error('Invalid fields in request.')
+    // }
 
-      await usersServices.updateProfile(session.passport?.user?.userId, data)
+    await usersServices.updateProfile(session.passport?.user?.userId, data)
 
-      return res
-        .status(HTTP_STATUS_CODES.OK)
-        .send('Profile updated successfully.')
-    } catch (e: any) {
-      res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).send({
-        message: 'Error updating profile:',
-        error: e.message,
-      })
-    }
-  },
-)
+    return res.status(HTTP_STATUS_CODES.OK).send('Profile updated successfully.')
+  } catch (e: any) {
+    res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).send({
+      message: 'Error updating profile:',
+      error: e.message,
+    })
+  }
+})
 
 router.get('/login/success', authenticate, (req: Request, res: Response) => {
   const { session, sessionID } = req

@@ -15,12 +15,7 @@ export class ExerciseServices {
     secondaryMuscles: Record<string, string>,
   ): Promise<void> {
     try {
-      await this.exercise.create(
-        exerciseName,
-        targetMuscle,
-        video,
-        secondaryMuscles,
-      )
+      await this.exercise.create(exerciseName, targetMuscle, video, secondaryMuscles)
     } catch (error) {
       return Promise.reject(error)
     }
@@ -31,17 +26,13 @@ export class ExerciseServices {
       const exercise = await this.exercise?.getExerciseById(exerciseId)
 
       if (!exercise) {
-        return Promise.reject(
-          new Error(`Exercise with ID ${exerciseId} not found`),
-        )
+        return Promise.reject(new Error(`Exercise with ID ${exerciseId} not found`))
       }
 
       return exercise
     } catch (error) {
       return Promise.reject(
-        new Error(
-          `Failed to retrieve exercise by ID: ${(error as Error).message}`,
-        ),
+        new Error(`Failed to retrieve exercise by ID: ${(error as Error).message}`),
       )
     }
   }
@@ -51,9 +42,7 @@ export class ExerciseServices {
       const exercise = this.exercise?.getExerciseByName(exerciseName)
 
       if (!exercise) {
-        return Promise.reject(
-          new Error(`Exercise with ID ${exerciseName} not found`),
-        )
+        return Promise.reject(new Error(`Exercise with ID ${exerciseName} not found`))
       }
 
       return exercise
@@ -62,9 +51,7 @@ export class ExerciseServices {
     }
   }
 
-  async getAllExercises(
-    filter: string = '',
-  ): Promise<Exercise[] | null | undefined> {
+  async getAllExercises(filter: string = ''): Promise<Exercise[] | null | undefined> {
     try {
       const allExercises = await this.exercise.getAllExercises()
       const filteredExercises = allExercises?.filter(exercise =>
@@ -73,19 +60,14 @@ export class ExerciseServices {
       return filteredExercises
     } catch (error) {
       return Promise.reject(
-        new Error(
-          `Failed to retrieve all exercises: ${(error as Error).message}`,
-        ),
+        new Error(`Failed to retrieve all exercises: ${(error as Error).message}`),
       )
     }
   }
 
-  async getPreviewExercises(
-    exerciseCount: number,
-  ): Promise<Exercise[] | null | undefined> {
+  async getPreviewExercises(exerciseCount: number): Promise<Exercise[] | null | undefined> {
     try {
-      const getPreviewExercises =
-        await this.exercise.getPreviewExercises(exerciseCount)
+      const getPreviewExercises = await this.exercise.getPreviewExercises(exerciseCount)
 
       if (getPreviewExercises?.length === 0) {
         return null
@@ -94,9 +76,7 @@ export class ExerciseServices {
       return getPreviewExercises
     } catch (error) {
       return Promise.reject(
-        new Error(
-          `Failed to retrieve preview exercises: ${(error as Error).message}`,
-        ),
+        new Error(`Failed to retrieve preview exercises: ${(error as Error).message}`),
       )
     }
   }
