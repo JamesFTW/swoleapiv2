@@ -1,0 +1,12 @@
+import { TemplateWorkouts } from "../templateworkouts/TemplateWorkouts"
+import { Users } from "../../users/Users"
+
+model ScheduledWorkouts {
+  scheduledWorkoutsId Int @id @unique @default(autoincrement())
+  templateId Int
+  userId String
+  workoutDate DateTime
+
+  user Users         @relation(fields: [userId], references: [userId])
+  templateWorkouts TemplateWorkouts @relation(fields: [templateId], references: [templateId])
+}

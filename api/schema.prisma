@@ -42,7 +42,8 @@ model Exercises {
   secondaryMuscles Json?
   video            String
 
-  userExercises UserExercises[]
+  userExercises            UserExercises[]
+  templateworkoutexercises TemplateWorkoutExercises[]
 }
 
 //
@@ -53,6 +54,8 @@ model UserExercises {
   userExerciseID Int      @id @unique @default(autoincrement())
   exerciseId     Int
   userId         String
+  workoutId      Int
+  comment        String?
   createdAt      DateTime @default(now()) @db.Timestamp(6)
   updatedAt      DateTime @updatedAt
   weightMoved    Int
@@ -61,8 +64,28 @@ model UserExercises {
   user     Users     @relation(fields: [userId], references: [userId])
   exercise Exercises @relation(fields: [exerciseId], references: [exerciseId])
 
+  UserExerciseSets UserExerciseSets[]
+
   @@index([userId])
   @@index([exerciseId])
+}
+
+//
+// UserExerciseSets.prisma
+//
+
+model UserExerciseSets {
+  userExerciseSetsId Int      @id @unique @default(autoincrement())
+  userExerciseID     Int
+  userId             String
+  setNumber          Int
+  setType            String?
+  weight             Float?
+  reps               Int
+  createdAt          DateTime @default(now())
+
+  userExercise UserExercises @relation(fields: [userExerciseID], references: [userExerciseID])
+  user         Users         @relation(fields: [userId], references: [userId])
 }
 
 //
@@ -82,5 +105,70 @@ model Users {
   createdAt    DateTime @default(now()) @db.Timestamp(6)
   updatedAt    DateTime @updatedAt
 
-  userExercises UserExercises[]
+  templateWorkouts  TemplateWorkouts[]
+  userExercises     UserExercises[]
+  userExerciseSets  UserExerciseSets[]
+  scheduledWorkouts ScheduledWorkouts[]
+  completedWorkouts CompletedWorkouts[]
+}
+
+//
+// CompletedWorkouts.prisma
+//
+
+model CompletedWorkouts {
+  completedWorkoutId Int      @id @unique @default(autoincrement())
+  usedId             String
+  userExercises      Int[]
+  comment            String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  minHeartRate       Int?
+  maxHeartRate       Int?
+  duration           Int
+
+  User Users @relation(fields: [usedId], references: [userId])
+}
+
+//
+// ScheduledWorkouts.prisma
+//
+
+model ScheduledWorkouts {
+  scheduledWorkoutsId Int      @id @unique @default(autoincrement())
+  templateId          Int
+  userId              String
+  workoutDate         DateTime
+
+  user             Users            @relation(fields: [userId], references: [userId])
+  templateWorkouts TemplateWorkouts @relation(fields: [templateId], references: [templateId])
+}
+
+//
+// TemplateWorkoutExercises.prisma
+//
+
+model TemplateWorkoutExercises {
+  templateId Int    @id @default(autoincrement())
+  exerciseId Int
+  setData    Json[]
+
+  templateWorkout TemplateWorkouts @relation(fields: [templateId], references: [templateId])
+  exercises       Exercises        @relation(fields: [exerciseId], references: [exerciseId])
+}
+
+//
+// TemplateWorkouts.prisma
+//
+
+model TemplateWorkouts {
+  templateId   Int      @id @unique @default(autoincrement())
+  userId       String
+  templateName String
+  createdAt    DateTime @default(now())
+
+  user Users @relation(fields: [userId], references: [userId])
+
+  templateWorkoutexercises TemplateWorkoutExercises[]
+  scheduledWorkouts        ScheduledWorkouts[]
 }

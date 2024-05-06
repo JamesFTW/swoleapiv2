@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express'
-import { UserExercisesServices } from '../services'
+import { UserExercisesServices } from '../services/userExerciseServices'
 
 const router = express.Router()
 const userExerciseService = new UserExercisesServices()
@@ -8,9 +8,9 @@ router.post('/create', async (req: Request, res: Response) => {
   try {
     if (req.body) {
       if (req.isAuthenticated()) {
-        const { exerciseId, userId, weightMoved, reps } = req.body
+        const { exerciseId, userId, weightMoved, reps, workoutId } = req.body
 
-        await userExerciseService.create(exerciseId, userId, weightMoved, reps)
+        await userExerciseService.create(exerciseId, userId, weightMoved, reps, workoutId)
 
         res.sendStatus(200)
       } else {

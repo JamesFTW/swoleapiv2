@@ -1,4 +1,5 @@
-import { UserExercises } from "../userexercise/UserExercises"
+import { UserExercises } from "../userexercises/UserExercises"
+import { TemplateWorkoutExercises } from "../workouts/templateworkouts/templateworkoutexercises/TemplateWorkoutExercises"
 
 model Exercises {
   exerciseId Int @id @unique @default(autoincrement())
@@ -10,4 +11,5 @@ model Exercises {
   video String
 
   userExercises UserExercises[]
+  templateworkoutexercises TemplateWorkoutExercises[]
 }

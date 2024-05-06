@@ -1,0 +1,15 @@
+import { Users } from "../../users/Users"
+
+model CompletedWorkouts {
+  completedWorkoutId Int @id @unique @default(autoincrement())
+  usedId String
+  userExercises Int[]
+  comment String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  minHeartRate Int?
+  maxHeartRate Int?
+  duration Int
+
+  User Users @relation(fields: [usedId], references: [userId])
+}

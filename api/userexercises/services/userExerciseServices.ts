@@ -1,12 +1,12 @@
-import { UserExercisesModel } from '../models'
-import { PrismaClient, UserExercises } from '@prisma/client'
+import { UserExercises } from '../models/UserExercises'
+import { PrismaClient, UserExercises as UserExercisesPrisma } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export class UserExercisesServices {
-  private userExercise: UserExercisesModel
+  private userExercise: UserExercises
 
   constructor() {
-    this.userExercise = new UserExercisesModel()
+    this.userExercise = new UserExercises()
   }
 
   async create(
@@ -14,6 +14,7 @@ export class UserExercisesServices {
     userId: string,
     weightMoved: number,
     reps: number,
+    workoutId: number,
   ): Promise<void> {
     try {
       await prisma.$transaction(async prisma => {
@@ -56,6 +57,7 @@ export class UserExercisesServices {
             },
             weightMoved: weightMovedInt,
             reps: repsInt,
+            workoutId,
           },
         })
       })
@@ -64,7 +66,10 @@ export class UserExercisesServices {
     }
   }
 
-  async getUserExercises(exerciseId: number, userId: string): Promise<UserExercises[] | undefined> {
+  async getUserExercises(
+    exerciseId: number,
+    userId: string,
+  ): Promise<UserExercisesPrisma[] | undefined> {
     try {
       const userExercise = await this.userExercise.getUserExercise(exerciseId, userId)
       return userExercise
