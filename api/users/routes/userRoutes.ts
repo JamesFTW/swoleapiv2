@@ -1,14 +1,13 @@
 import bcrypt from 'bcrypt'
 import multer from 'multer'
 import passport from '../authentication'
-import express, { NextFunction, Request, Response } from 'express'
+import express, { Request, Response } from 'express'
 import { UsersServices } from '../services/UserServices'
-import { UserPayload, userUpdateDataObj } from '../models/Users'
+import { UserPayload } from '../models/Users'
 import { validationResult } from 'express-validator'
 import { authenticate } from '@middleware/authenticate'
 import { MIME_TYPES, HTTP_STATUS_CODES } from '@api/config/http.config'
 import { UserUpdateData } from '../models/Users'
-import Sentry from '@sentry/node'
 
 const router = express.Router()
 const usersServices = new UsersServices()
@@ -73,9 +72,6 @@ router.post(
   }),
 )
 
-/**
- * Profile info and workouts can be in a session.
- */
 router.get('/profile', authenticate, async (req: Request, res: Response) => {
   const { session } = req
   const userInfo = await usersServices.getByUserId(
@@ -83,7 +79,7 @@ router.get('/profile', authenticate, async (req: Request, res: Response) => {
   )
 
   res.status(HTTP_STATUS_CODES.OK).json({
-    userInfo,
+    ...userInfo,
   })
 })
 
@@ -132,13 +128,17 @@ router.put(
       const { session } = req
       const data: UserUpdateData = req.body
 
-      const validFields = Object.keys(data).every(field =>
-        Object.keys(userUpdateDataObj).includes(field),
-      )
+      /**
+       * TODO: Validate fields in request.
+       */
 
-      if (!validFields) {
-        throw new Error('Invalid fields in request.')
-      }
+      // const validFields = Object.keys(data).every(field =>
+      //   Object.keys(userUpdateDataObj).includes(field),
+      // )
+
+      // if (!validFields) {
+      //   throw new Error('Invalid fields in request.')
+      // }
 
       await usersServices.updateProfile(session.passport?.user?.userId, data)
 

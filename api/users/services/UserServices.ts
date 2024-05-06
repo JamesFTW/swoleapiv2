@@ -119,13 +119,14 @@ export class UsersServices {
     }
   }
 
-  async updateProfile(userId: string, data: UserUpdateData): Promise<void> {
+  async updateProfile(
+    userId: string,
+    data: UserUpdateData,
+  ): Promise<void | Error> {
     try {
       await this.users?.updateProfile(userId, data)
     } catch (error) {
-      return Promise.reject(
-        new Error(`Failed to update profile: ${(error as Error).message}`),
-      )
+      return new Error(`Failed to update profile: ${(error as Error).message}`)
     }
   }
 

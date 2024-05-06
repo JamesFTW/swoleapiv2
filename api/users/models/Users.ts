@@ -25,6 +25,7 @@ export interface UserUpdateData {
   lastName?: string
   profilePhoto?: string
   bio?: string
+  cacheExpiry?: string
 }
 
 export const userUpdateDataObj: Record<keyof UserUpdateData, any> = {
@@ -32,6 +33,7 @@ export const userUpdateDataObj: Record<keyof UserUpdateData, any> = {
   lastName: 'string',
   profilePhoto: 'string',
   bio: 'string',
+  cacheExpiry: 'string',
 }
 
 export class Users {
