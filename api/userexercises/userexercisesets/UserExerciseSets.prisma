@@ -1,0 +1,17 @@
+import { UserExercises } from "../UserExercises"
+import { Users } from "../../users/Users"
+
+model UserExerciseSets {
+  userExerciseSetsId Int    @id @unique @default(autoincrement())
+  userExerciseID     Int
+  userId             String
+  setNumber          Int
+  setType            String?
+  weight             Float?
+  reps               Int
+  createdAt          DateTime @default(now())
+
+
+  userExercise UserExercises      @relation(fields: [userExerciseID], references: [userExerciseID])
+  user Users                      @relation(fields: [userId], references: [userId])
+}

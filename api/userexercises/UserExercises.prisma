@@ -1,10 +1,13 @@
 import { Users } from "../users/Users"
 import { Exercises } from "../exercises/Exercises"
+import { UserExerciseSets } from "userexercisesets/UserExerciseSets"
 
 model UserExercises {
   userExerciseID Int    @id @unique @default(autoincrement())
   exerciseId Int
   userId String
+  workoutId Int
+  comment String?
   createdAt DateTime    @default(now()) @db.Timestamp(6)
   updatedAt DateTime    @updatedAt
   weightMoved Int
@@ -12,6 +15,8 @@ model UserExercises {
 
   user Users         @relation(fields: [userId], references: [userId])
   exercise Exercises @relation(fields: [exerciseId], references: [exerciseId])
+
+  UserExerciseSets UserExerciseSets[]
 
   @@index([userId])
   @@index([exerciseId])

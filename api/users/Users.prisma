@@ -1,4 +1,8 @@
-import { UserExercises } from "../userexercise/UserExercises"
+import { UserExercises } from "../userexercises/UserExercises"
+import { UserExerciseSets } from "../userexercises/userexercisesets/UserExerciseSets"
+import { TemplateWorkouts} from "../workouts/templateworkouts/TemplateWorkouts"
+import { ScheduledWorkouts } from "../workouts/scheduledworkouts/ScheduledWorkouts"
+import { CompletedWorkouts } from "../workouts/completedworkouts/CompletedWorkouts"
 
 model Users {
   profilePhoto String?
@@ -13,5 +17,9 @@ model Users {
   createdAt DateTime  @default(now()) @db.Timestamp(6)
   updatedAt DateTime  @updatedAt
 
+  templateWorkouts TemplateWorkouts[]
   userExercises UserExercises[]
+  userExerciseSets UserExerciseSets[]
+  scheduledWorkouts ScheduledWorkouts[]
+  completedWorkouts CompletedWorkouts[]
 }
