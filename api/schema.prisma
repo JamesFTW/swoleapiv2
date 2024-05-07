@@ -51,21 +51,21 @@ model Exercises {
 //
 
 model UserExercises {
-  userExerciseID Int      @id @unique @default(autoincrement())
+  userExerciseId Int      @id @unique @default(autoincrement())
   exerciseId     Int
   userId         String
-  workoutId      Int
+  workoutId      String   @unique
   comment        String?
   createdAt      DateTime @default(now()) @db.Timestamp(6)
-  updatedAt      DateTime @updatedAt
-  weightMoved    Int
-  reps           Int
+  updatedAt      DateTime @updatedAt @db.Timestamp(6)
 
   user     Users     @relation(fields: [userId], references: [userId])
   exercise Exercises @relation(fields: [exerciseId], references: [exerciseId])
 
-  UserExerciseSets UserExerciseSets[]
+  UserExerciseSets  UserExerciseSets[]
+  CompletedWorkouts CompletedWorkouts[]
 
+  @@unique(name: "exerciseId_userId", fields: [exerciseId, userId])
   @@index([userId])
   @@index([exerciseId])
 }
@@ -76,15 +76,16 @@ model UserExercises {
 
 model UserExerciseSets {
   userExerciseSetsId Int      @id @unique @default(autoincrement())
-  userExerciseID     Int
+  userExerciseId     Int
   userId             String
   setNumber          Int
   setType            String?
   weight             Float?
   reps               Int
+  rpe                Int?
   createdAt          DateTime @default(now())
 
-  userExercise UserExercises @relation(fields: [userExerciseID], references: [userExerciseID])
+  userExercise UserExercises @relation(fields: [userExerciseId], references: [userExerciseId])
   user         Users         @relation(fields: [userId], references: [userId])
 }
 
@@ -119,7 +120,7 @@ model Users {
 model CompletedWorkouts {
   completedWorkoutId Int      @id @unique @default(autoincrement())
   usedId             String
-  userExercises      Int[]
+  workoutId          String
   comment            String?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
@@ -127,7 +128,8 @@ model CompletedWorkouts {
   maxHeartRate       Int?
   duration           Int
 
-  User Users @relation(fields: [usedId], references: [userId])
+  User          Users         @relation(fields: [usedId], references: [userId])
+  UserExercises UserExercises @relation(fields: [workoutId], references: [workoutId])
 }
 
 //

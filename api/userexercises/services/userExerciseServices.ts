@@ -1,6 +1,5 @@
-import { UserExercises } from '../models/UserExercises'
-import { PrismaClient, UserExercises as UserExercisesPrisma } from '@prisma/client'
-const prisma = new PrismaClient()
+import { UserExercises, UserExerciseSetParams } from '../models/UserExercises'
+import { UserExercises as UserExercisesPrisma } from '@prisma/client'
 
 export class UserExercisesServices {
   private userExercise: UserExercises
@@ -12,55 +11,11 @@ export class UserExercisesServices {
   async create(
     exerciseId: number,
     userId: string,
-    weightMoved: number,
-    reps: number,
-    workoutId: number,
+    workoutId: string,
+    userExerciseSetData: UserExerciseSetParams[],
   ): Promise<void> {
     try {
-      await prisma.$transaction(async prisma => {
-        const userExists = await prisma.users.findUnique({
-          where: {
-            userId: userId,
-          },
-        })
-
-        if (!userExists) {
-          throw new Error('User with the provided userId does not exist.')
-        }
-
-        // @ts-ignore
-        const exerciseIdInt = parseInt(exerciseId)
-
-        const exerciseExists = await prisma.exercises.findUnique({
-          where: {
-            exerciseId: exerciseIdInt,
-          },
-        })
-
-        if (!exerciseExists) {
-          throw new Error('Exercise with the provided exerciseId does not exist.')
-        }
-
-        // @ts-ignore
-        const weightMovedInt = parseInt(weightMoved)
-
-        // @ts-ignore
-        const repsInt = parseInt(reps)
-
-        await prisma.userExercises.create({
-          data: {
-            exercise: {
-              connect: { exerciseId: exerciseIdInt },
-            },
-            user: {
-              connect: { userId: userId },
-            },
-            weightMoved: weightMovedInt,
-            reps: repsInt,
-            workoutId,
-          },
-        })
-      })
+      await this.userExercise.create(exerciseId, userId, workoutId, userExerciseSetData)
     } catch (error) {
       return Promise.reject(error)
     }

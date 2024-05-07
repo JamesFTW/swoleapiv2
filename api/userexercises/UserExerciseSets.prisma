@@ -1,17 +1,18 @@
-import { UserExercises } from "../UserExercises"
-import { Users } from "../../users/Users"
+import { UserExercises } from "UserExercises"
+import { Users } from "../users/Users"
 
 model UserExerciseSets {
   userExerciseSetsId Int    @id @unique @default(autoincrement())
-  userExerciseID     Int
+  userExerciseId     Int
   userId             String
   setNumber          Int
   setType            String?
   weight             Float?
   reps               Int
+  rpe                Int?
   createdAt          DateTime @default(now())
 
 
-  userExercise UserExercises      @relation(fields: [userExerciseID], references: [userExerciseID])
+  userExercise UserExercises      @relation(fields: [userExerciseId], references: [userExerciseId])
   user Users                      @relation(fields: [userId], references: [userId])
 }

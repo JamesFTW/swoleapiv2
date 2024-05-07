@@ -1,9 +1,10 @@
 import { Users } from "../../users/Users"
+import { UserExercises } from "../../userexercises/UserExercises"
 
 model CompletedWorkouts {
   completedWorkoutId Int @id @unique @default(autoincrement())
   usedId String
-  userExercises Int[]
+  workoutId String
   comment String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -12,4 +13,5 @@ model CompletedWorkouts {
   duration Int
 
   User Users @relation(fields: [usedId], references: [userId])
+  UserExercises UserExercises @relation(fields: [workoutId], references: [workoutId])
 }

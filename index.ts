@@ -1,6 +1,7 @@
 require('module-alias/register')
 import express, { Express } from 'express'
 import helmet from 'helmet'
+import bodyParser from 'body-parser'
 import passport from 'passport'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
@@ -37,6 +38,8 @@ const port = process.env.PORT
 app.use(Sentry.Handlers.requestHandler())
 app.use(Sentry.Handlers.errorHandler())
 app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(sessionMiddleware)

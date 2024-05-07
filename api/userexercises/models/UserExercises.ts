@@ -1,26 +1,73 @@
 import { PrismaClient, UserExercises as UserExercisesPrisma } from '@prisma/client'
+
 const prisma = new PrismaClient()
+
+export type UserExerciseSetParams = {
+  reps: number
+  weight: number
+  rpe: number
+  setNumber: number
+  userId: string
+}
 
 export class UserExercises {
   async create(
     exerciseId: number,
     userId: string,
-    weightMoved: number,
-    reps: number,
-    workoutId: number,
+    workoutId: string,
+    userExerciseSetData: UserExerciseSetParams[],
   ): Promise<void> {
     try {
-      await prisma.userExercises.create({
-        data: {
-          exerciseId,
-          userId,
-          weightMoved,
-          reps,
-          workoutId, // Replace 0 with the actual workoutId value
-        },
+      await prisma.$transaction(async prisma => {
+        const userExists = await prisma.users.findUnique({
+          where: {
+            userId: userId,
+          },
+        })
+
+        if (!userExists) {
+          throw new Error('User with the provided userId does not exist.')
+        }
+
+        const exerciseExists = await prisma.exercises.findUnique({
+          where: {
+            exerciseId: exerciseId,
+          },
+        })
+
+        if (!exerciseExists) {
+          throw new Error('Exercise with the provided exerciseId does not exist.')
+        }
+
+        await prisma.userExercises.upsert({
+          where: {
+            exerciseId_userId: {
+              userId: userId,
+              exerciseId: exerciseId,
+            },
+          },
+          update: {
+            updatedAt: new Date(),
+            UserExerciseSets: {
+              create: userExerciseSetData,
+            },
+          },
+          create: {
+            exercise: {
+              connect: { exerciseId: exerciseId },
+            },
+            user: {
+              connect: { userId: userId },
+            },
+            workoutId,
+            UserExerciseSets: {
+              create: userExerciseSetData,
+            },
+          },
+        })
       })
     } catch (error) {
-      return Promise.reject(error)
+      throw error
     }
   }
 
@@ -37,7 +84,7 @@ export class UserExercises {
       })
       return userExercise
     } catch (error) {
-      return Promise.reject(error)
+      throw error
     }
   }
 }
