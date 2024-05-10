@@ -10,6 +10,11 @@ export type UserExerciseSetParams = {
   userId: string
 }
 
+export type UserExerciseCreateParams = {
+  exerciseId: number
+  exerciseSetsData: UserExerciseSetParams[]
+}
+
 export class UserExercises {
   async create(
     exerciseId: number,
@@ -47,7 +52,7 @@ export class UserExercises {
             },
           },
           update: {
-            updatedAt: new Date(),
+            updatedAt: new Date().toISOString(),
             UserExerciseSets: {
               create: userExerciseSetData,
             },
