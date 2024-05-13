@@ -1,8 +1,6 @@
 import express, { Request, Response } from 'express'
 import { authenticate } from '@middleware/authenticate'
 import { UserExercisesServices } from '../services/userExerciseServices'
-import { UserExerciseSetParams, UserExerciseCreateParams } from '../models/UserExercises'
-import { v4 as uuidv4 } from 'uuid'
 
 const router = express.Router()
 const userExerciseService = new UserExercisesServices()
@@ -12,31 +10,13 @@ router.post('/create', authenticate, async (req: Request, res: Response) => {
     const { userId } = req.session?.passport?.user
     const userExerciseData = req.body
 
-    const createUserExercises = userExerciseData.map(
-      async (userExercise: UserExerciseCreateParams) => {
-        const { exerciseId, exerciseSetsData } = userExercise
-
-        const userExerciseSetDataAdjusted = exerciseSetsData.map((item: UserExerciseSetParams) => {
-          return {
-            setNumber: item.setNumber,
-            reps: item.reps,
-            rpe: item.rpe,
-            weight: item.weight,
-            userId: userId,
-          }
-        })
-
-        return userExerciseService.create(exerciseId, userId, uuidv4(), userExerciseSetDataAdjusted)
-      },
-    )
-
-    await Promise.all(createUserExercises)
+    await userExerciseService.create(userId, userExerciseData)
 
     res.sendStatus(200)
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: 'Something went wrong creating a new user exercise.',
-      error: error,
+      error: error.message,
     })
   }
 })

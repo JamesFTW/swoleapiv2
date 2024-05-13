@@ -15,6 +15,16 @@ export type UserExerciseCreateParams = {
   exerciseSetsData: UserExerciseSetParams[]
 }
 
+export function isUserExerciseSetParams(obj: any): obj is UserExerciseSetParams {
+  return (
+    typeof obj.reps === 'number' &&
+    typeof obj.weight === 'number' &&
+    typeof obj.rpe === 'number' &&
+    typeof obj.setNumber === 'number' &&
+    typeof obj.userId === 'string'
+  )
+}
+
 export class UserExercises {
   async create(
     exerciseId: number,
