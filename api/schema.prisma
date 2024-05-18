@@ -127,6 +127,9 @@ model CompletedWorkouts {
   minHeartRate       Int?
   maxHeartRate       Int?
   duration           Int
+  workoutTitle       String
+  caloriesBurned     Int
+  primaryMuscleGroup String
 
   User          Users         @relation(fields: [usedId], references: [userId])
   UserExercises UserExercises @relation(fields: [workoutId], references: [workoutId])
