@@ -111,6 +111,7 @@ model Users {
   userExerciseSets  UserExerciseSets[]
   scheduledWorkouts ScheduledWorkouts[]
   completedWorkouts CompletedWorkouts[]
+  WeeklySnapshots   WeeklySnapshots[]
 }
 
 //
@@ -119,7 +120,7 @@ model Users {
 
 model CompletedWorkouts {
   completedWorkoutId Int      @id @unique @default(autoincrement())
-  usedId             String
+  userId             String
   workoutId          String
   comment            String?
   createdAt          DateTime @default(now())
@@ -131,8 +132,10 @@ model CompletedWorkouts {
   caloriesBurned     Int
   primaryMuscleGroup String
 
-  User          Users         @relation(fields: [usedId], references: [userId])
-  UserExercises UserExercises @relation(fields: [workoutId], references: [workoutId])
+  User                             Users            @relation(fields: [userId], references: [userId])
+  UserExercises                    UserExercises    @relation(fields: [workoutId], references: [workoutId])
+  WeeklySnapshots                  WeeklySnapshots? @relation(fields: [weeklySnapshotsWeeklySnapshotsId], references: [weeklySnapshotsId])
+  weeklySnapshotsWeeklySnapshotsId String?
 }
 
 //
@@ -176,4 +179,26 @@ model TemplateWorkouts {
 
   templateWorkoutexercises TemplateWorkoutExercises[]
   scheduledWorkouts        ScheduledWorkouts[]
+}
+
+//
+// WeeklySnapshots.prisma
+//
+
+model WeeklySnapshots {
+  weeklySnapshotsId   String   @id @default(cuid())
+  userId              String
+  startDate           DateTime
+  endDate             DateTime
+  numberOfSets        Int
+  totalVolume         Int
+  totalWorkoutTime    Int
+  completedWorkoutIds Int[]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @default(now())
+
+  User              Users               @relation(fields: [userId], references: [userId])
+  CompletedWorkouts CompletedWorkouts[]
+
+  @@unique(name: "userId_startDate_endDate", fields: [userId, startDate, endDate])
 }

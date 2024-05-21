@@ -1,0 +1,20 @@
+import { Users } from "../../users/Users"
+import { CompletedWorkouts } from "../data/completedworkouts/CompletedWorkouts"
+
+model WeeklySnapshots {
+  weeklySnapshotsId String @id @default(cuid())
+  userId String
+  startDate DateTime
+  endDate DateTime
+  numberOfSets Int
+  totalVolume Int
+  totalWorkoutTime Int
+  completedWorkoutIds Int[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  User Users @relation(fields: [userId], references: [userId])
+  CompletedWorkouts CompletedWorkouts[]
+
+  @@unique(name: "userId_startDate_endDate", fields: [userId, startDate, endDate])
+}

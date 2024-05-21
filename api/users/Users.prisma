@@ -1,8 +1,8 @@
 import { UserExercises } from "../userexercises/UserExercises"
 import { UserExerciseSets } from "../userexercises/UserExerciseSets"
-import { TemplateWorkouts} from "../workouts/templateworkouts/TemplateWorkouts"
-import { ScheduledWorkouts } from "../workouts/scheduledworkouts/ScheduledWorkouts"
-import { CompletedWorkouts } from "../workouts/completedworkouts/CompletedWorkouts"
+import { TemplateWorkouts} from "../workouts/data/templateworkouts/TemplateWorkouts"
+import { ScheduledWorkouts } from "../workouts/data/scheduledworkouts/ScheduledWorkouts"
+import { CompletedWorkouts } from "../workouts/data/completedworkouts/CompletedWorkouts"
 
 model Users {
   profilePhoto String?

@@ -1,7 +1,7 @@
 import { Users } from "../users/Users"
 import { Exercises } from "../exercises/Exercises"
 import { UserExerciseSets } from "UserExerciseSets"
-import { CompletedWorkouts } from "../workouts/completedworkouts/CompletedWorkouts"
+import { CompletedWorkouts } from "../workouts/data/completedworkouts/CompletedWorkouts"
 
 model UserExercises {
   userExerciseId Int   @id @unique @default(autoincrement())
