@@ -1,5 +1,5 @@
 import { TemplateWorkouts } from "../templateworkouts/TemplateWorkouts"
-import { Users } from "../../users/Users"
+import { Users } from "../../../users/Users"
 
 model ScheduledWorkouts {
   scheduledWorkoutsId Int @id @unique @default(autoincrement())

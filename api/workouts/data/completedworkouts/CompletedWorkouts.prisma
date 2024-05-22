@@ -1,9 +1,9 @@
-import { Users } from "../../users/Users"
-import { UserExercises } from "../../userexercises/UserExercises"
+import { Users } from "../../../users/Users"
+import { UserExercises } from "../../../userexercises/UserExercises"
 
 model CompletedWorkouts {
   completedWorkoutId Int @id @unique @default(autoincrement())
-  usedId String
+  userId String
   workoutId String
   comment String?
   createdAt DateTime @default(now())
@@ -15,6 +15,6 @@ model CompletedWorkouts {
   caloriesBurned Int
   primaryMuscleGroup String
 
-  User Users @relation(fields: [usedId], references: [userId])
+  User Users @relation(fields: [userId], references: [userId])
   UserExercises UserExercises @relation(fields: [workoutId], references: [workoutId])
 }
