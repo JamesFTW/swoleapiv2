@@ -54,7 +54,6 @@ model UserExercises {
   userExerciseId Int      @id @unique @default(autoincrement())
   exerciseId     Int
   userId         String
-  workoutId      String   @unique
   comment        String?
   createdAt      DateTime @default(now()) @db.Timestamp(6)
   updatedAt      DateTime @updatedAt @db.Timestamp(6)
@@ -62,8 +61,9 @@ model UserExercises {
   user     Users     @relation(fields: [userId], references: [userId])
   exercise Exercises @relation(fields: [exerciseId], references: [exerciseId])
 
-  UserExerciseSets  UserExerciseSets[]
-  CompletedWorkouts CompletedWorkouts[]
+  UserExerciseSets                    UserExerciseSets[]
+  CompletedWorkouts                   CompletedWorkouts? @relation(fields: [completedWorkoutsCompletedWorkoutId], references: [completedWorkoutId])
+  completedWorkoutsCompletedWorkoutId Int?
 
   @@unique(name: "exerciseId_userId", fields: [exerciseId, userId])
   @@index([userId])
@@ -119,21 +119,22 @@ model Users {
 //
 
 model CompletedWorkouts {
-  completedWorkoutId Int      @id @unique @default(autoincrement())
+  completedWorkoutId Int             @id @unique @default(autoincrement())
   userId             String
-  workoutId          String
   comment            String?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  userExercises      UserExercises[] @relation
+  userExerciseIds    Int[]
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
   minHeartRate       Int?
   maxHeartRate       Int?
   duration           Int
   workoutTitle       String
-  caloriesBurned     Int
+  caloriesBurned     Int?
   primaryMuscleGroup String
+  totalVolume        Int?
 
   User                             Users            @relation(fields: [userId], references: [userId])
-  UserExercises                    UserExercises    @relation(fields: [workoutId], references: [workoutId])
   WeeklySnapshots                  WeeklySnapshots? @relation(fields: [weeklySnapshotsWeeklySnapshotsId], references: [weeklySnapshotsId])
   weeklySnapshotsWeeklySnapshotsId String?
 }

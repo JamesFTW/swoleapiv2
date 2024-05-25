@@ -30,7 +30,7 @@ export class UserExercises {
     exerciseId: number,
     userId: string,
     workoutId: string,
-    userExerciseSetData: UserExerciseSetParams[],
+    userExerciseSetData: UserExerciseSetParams[]
   ): Promise<void> {
     try {
       await prisma.$transaction(async prisma => {
@@ -74,7 +74,6 @@ export class UserExercises {
             user: {
               connect: { userId: userId },
             },
-            workoutId,
             UserExerciseSets: {
               create: userExerciseSetData,
             },
@@ -88,7 +87,7 @@ export class UserExercises {
 
   async getUserExercise(
     exerciseId: number,
-    userId: string,
+    userId: string
   ): Promise<UserExercisesPrisma[] | undefined> {
     try {
       const userExercise = await prisma.userExercises.findMany({
