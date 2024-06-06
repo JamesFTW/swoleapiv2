@@ -12,14 +12,14 @@ export type UserExerciseSetParams = {
 
 export type UserExerciseCreateParams = {
   exerciseId: number
-  exerciseSetsData: UserExerciseSetParams[]
+  userExerciseSetData: UserExerciseSetParams[]
 }
 
 export function isUserExerciseSetParams(obj: any): obj is UserExerciseSetParams {
   return (
     typeof obj.reps === 'number' &&
     typeof obj.weight === 'number' &&
-    typeof obj.rpe === 'number' &&
+    (typeof obj.rpe === 'number' || typeof obj.rpe === 'undefined') &&
     typeof obj.setNumber === 'number' &&
     typeof obj.userId === 'string'
   )
@@ -29,7 +29,6 @@ export class UserExercises {
   async create(
     exerciseId: number,
     userId: string,
-    workoutId: string,
     userExerciseSetData: UserExerciseSetParams[]
   ): Promise<void> {
     try {

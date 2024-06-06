@@ -26,7 +26,7 @@ describe('UserExercisesServices', () => {
       const userId = 'user123'
       const userExerciseData = [
         {
-          exerciseSetsData: [
+          userExerciseSetData: [
             {
               setNumber: 1,
               reps: 10,
@@ -39,7 +39,7 @@ describe('UserExercisesServices', () => {
       ] as UserExerciseCreateParams[]
 
       await expect(userExerciseService.create(userId, userExerciseData)).rejects.toThrow(
-        'Exercise id is required.',
+        'Exercise id is required.'
       )
     })
 
@@ -52,7 +52,7 @@ describe('UserExercisesServices', () => {
       ] as UserExerciseCreateParams[]
 
       await expect(userExerciseService.create(userId, userExerciseData)).rejects.toThrow(
-        'Exercise sets data is required.',
+        'Exercise sets data is required.'
       )
     })
 
@@ -61,7 +61,7 @@ describe('UserExercisesServices', () => {
       const userExerciseData = [
         {
           exerciseId: 'invalid' as unknown as number,
-          exerciseSetsData: [
+          userExerciseSetData: [
             {
               setNumber: 1,
               reps: 10,
@@ -74,7 +74,7 @@ describe('UserExercisesServices', () => {
       ]
 
       await expect(userExerciseService.create(userId, userExerciseData)).rejects.toThrow(
-        'Exercise id must be a number.',
+        'Exercise id must be a number.'
       )
     })
 
@@ -83,7 +83,7 @@ describe('UserExercisesServices', () => {
       const userExerciseData = [
         {
           exerciseId: 1,
-          exerciseSetsData: [
+          userExerciseSetData: [
             {
               setNumber: 'invalid' as unknown as number,
               reps: 'invalid' as unknown as number,
@@ -98,7 +98,7 @@ describe('UserExercisesServices', () => {
       ;(isUserExerciseSetParams as unknown as jest.Mock).mockReturnValueOnce(false)
 
       await expect(userExerciseService.create(userId, userExerciseData)).rejects.toThrow(
-        'Exercise sets data is invalid.',
+        'Exercise sets data is invalid.'
       )
     })
   })

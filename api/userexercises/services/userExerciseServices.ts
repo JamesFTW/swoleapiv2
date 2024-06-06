@@ -5,7 +5,6 @@ import {
   isUserExerciseSetParams,
 } from '../models/UserExercises'
 import { UserExercises as UserExercisesPrisma } from '@prisma/client'
-import { v4 as uuidv4 } from 'uuid'
 
 export class UserExercisesServices {
   private userExercise: UserExercises
@@ -17,13 +16,13 @@ export class UserExercisesServices {
   async create(userId: string, userExerciseData: UserExerciseCreateParams[]): Promise<void> {
     const createUserExercises = userExerciseData.map(
       async (userExercise: UserExerciseCreateParams) => {
-        const { exerciseId, exerciseSetsData } = userExercise
+        const { exerciseId, userExerciseSetData } = userExercise
 
         if (!exerciseId) {
           throw new Error('Exercise id is required.')
         }
 
-        if (!exerciseSetsData) {
+        if (!userExerciseSetData) {
           throw new Error('Exercise sets data is required.')
         }
 
@@ -31,24 +30,26 @@ export class UserExercisesServices {
           throw new Error('Exercise id must be a number.')
         }
 
-        const userExerciseSetDataAdjusted = exerciseSetsData.map((item: UserExerciseSetParams) => {
-          const data = {
-            setNumber: item.setNumber,
-            reps: item.reps,
-            rpe: item.rpe,
-            weight: item.weight,
-            userId: userId,
-          }
+        const userExerciseSetDataAdjusted = userExerciseSetData.map(
+          (item: UserExerciseSetParams) => {
+            const data = {
+              setNumber: item.setNumber,
+              reps: item.reps,
+              rpe: item.rpe,
+              weight: item.weight,
+              userId: userId,
+            }
 
-          if (!isUserExerciseSetParams(data)) {
-            throw new Error('Exercise sets data is invalid.')
-          }
+            if (!isUserExerciseSetParams(data)) {
+              throw new Error('Exercise sets data is invalid.')
+            }
 
-          return data
-        })
+            return data
+          }
+        )
 
         try {
-          return this.userExercise.create(exerciseId, userId, uuidv4(), userExerciseSetDataAdjusted)
+          return this.userExercise.create(exerciseId, userId, userExerciseSetDataAdjusted)
         } catch (error) {
           throw error
         }
