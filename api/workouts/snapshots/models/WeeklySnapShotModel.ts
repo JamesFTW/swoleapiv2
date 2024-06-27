@@ -21,6 +21,12 @@ export interface WeeklySnapShot {
   completedWorkoutIds: number[]
 }
 
+export interface WeeklySnapShotDisplay {
+  numberOfSets: number
+  totalVolume: number
+  totalWorkoutTime: number
+}
+
 export class WeeklySnapshotModel {
   async createOrUpdate(
     userId: string,

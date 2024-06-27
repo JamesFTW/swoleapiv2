@@ -1,4 +1,8 @@
-import { WeeklySnapshotModel, WeeklySnapShot } from '../models/WeeklySnapShotModel'
+import {
+  WeeklySnapshotModel,
+  WeeklySnapShot,
+  WeeklySnapShotDisplay,
+} from '../models/WeeklySnapShotModel'
 
 export class WeeklySnapshotsService {
   private weeklySnapshots: WeeklySnapshotModel | null
@@ -41,6 +45,23 @@ export class WeeklySnapshotsService {
     } catch (error) {
       throw new Error(
         `An error occurred while getting a weekly snapshot: ${(error as Error).message}`
+      )
+    }
+  }
+
+  async getWeeklySnapshotDisplayData(userId: string): Promise<WeeklySnapShotDisplay | null> {
+    try {
+      const weeklySnapshot = await this.getWeeklySnapshotById(userId)
+
+      if (weeklySnapshot) {
+        const { numberOfSets, totalVolume, totalWorkoutTime } = weeklySnapshot
+        return { numberOfSets, totalVolume, totalWorkoutTime }
+      }
+
+      return null
+    } catch (error) {
+      throw new Error(
+        `An error occurred while getting the weekly snapshot display data: ${(error as Error).message}`
       )
     }
   }

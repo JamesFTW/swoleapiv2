@@ -34,7 +34,7 @@ router.get('/getSnapshot', authenticate, async (req: Request, res: Response) => 
   const { userId } = req.session?.passport?.user
 
   try {
-    const weeklySnapshotData = await weeklySnapshot.getWeeklySnapshotById(userId)
+    const weeklySnapshotData = await weeklySnapshot.getWeeklySnapshotDisplayData(userId)
     res.status(200).json({
       weeklySnapshotData,
     })
