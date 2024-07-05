@@ -10,7 +10,7 @@ router.post('/create', authenticate, async (req: Request, res: Response) => {
     const { userId } = req.session?.passport?.user
     const userExerciseData = req.body
 
-    await userExerciseService.create(userId, [userExerciseData])
+    await userExerciseService.create(userId, userExerciseData)
 
     res.sendStatus(200)
   } catch (error: any) {

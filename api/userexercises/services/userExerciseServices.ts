@@ -16,13 +16,13 @@ export class UserExercisesServices {
   async create(userId: string, userExerciseData: UserExerciseCreateParams[]): Promise<void> {
     const createUserExercises = userExerciseData.map(
       async (userExercise: UserExerciseCreateParams) => {
-        const { exerciseId, userExerciseSetData } = userExercise
+        const { exerciseId, exerciseSetsData } = userExercise
 
         if (!exerciseId) {
           throw new Error('Exercise id is required.')
         }
 
-        if (!userExerciseSetData) {
+        if (!exerciseSetsData) {
           throw new Error('Exercise sets data is required.')
         }
 
@@ -30,26 +30,24 @@ export class UserExercisesServices {
           throw new Error('Exercise id must be a number.')
         }
 
-        const userExerciseSetDataAdjusted = userExerciseSetData.map(
-          (item: UserExerciseSetParams) => {
-            const data = {
-              setNumber: item.setNumber,
-              reps: item.reps,
-              rpe: item.rpe,
-              weight: item.weight,
-              userId: userId,
-            }
-
-            if (!isUserExerciseSetParams(data)) {
-              throw new Error('Exercise sets data is invalid.')
-            }
-
-            return data
+        const exerciseSetsDataAdjusted = exerciseSetsData.map((item: UserExerciseSetParams) => {
+          const data = {
+            setNumber: item.setNumber,
+            reps: item.reps,
+            rpe: item.rpe,
+            weight: item.weight,
+            userId: userId,
           }
-        )
+
+          if (!isUserExerciseSetParams(data)) {
+            throw new Error('Exercise sets data is invalid.')
+          }
+
+          return data
+        })
 
         try {
-          return this.userExercise.create(exerciseId, userId, userExerciseSetDataAdjusted)
+          return this.userExercise.create(exerciseId, userId, exerciseSetsDataAdjusted)
         } catch (error) {
           throw error
         }

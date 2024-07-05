@@ -12,7 +12,7 @@ export type UserExerciseSetParams = {
 
 export type UserExerciseCreateParams = {
   exerciseId: number
-  userExerciseSetData: UserExerciseSetParams[]
+  exerciseSetsData: UserExerciseSetParams[]
 }
 
 export function isUserExerciseSetParams(obj: any): obj is UserExerciseSetParams {

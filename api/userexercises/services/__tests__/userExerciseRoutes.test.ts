@@ -26,7 +26,7 @@ describe('UserExercisesServices', () => {
       const userId = 'user123'
       const userExerciseData = [
         {
-          userExerciseSetData: [
+          exerciseSetsData: [
             {
               setNumber: 1,
               reps: 10,
@@ -61,7 +61,7 @@ describe('UserExercisesServices', () => {
       const userExerciseData = [
         {
           exerciseId: 'invalid' as unknown as number,
-          userExerciseSetData: [
+          exerciseSetsData: [
             {
               setNumber: 1,
               reps: 10,
@@ -83,7 +83,7 @@ describe('UserExercisesServices', () => {
       const userExerciseData = [
         {
           exerciseId: 1,
-          userExerciseSetData: [
+          exerciseSetsData: [
             {
               setNumber: 'invalid' as unknown as number,
               reps: 'invalid' as unknown as number,

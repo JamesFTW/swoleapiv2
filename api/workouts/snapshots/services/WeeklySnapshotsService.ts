@@ -37,14 +37,36 @@ export class WeeklySnapshotsService {
     }
   }
 
-  async getWeeklySnapshotById(userId: string): Promise<WeeklySnapShot | null | undefined> {
+  async getWeeklySnapshotById(userId: string): Promise<WeeklySnapShot> {
     const { startDate, endDate } = this.getStartAndEndDateForWeek(new Date())
 
     try {
-      return await this.weeklySnapshots?.getById(userId, startDate, endDate)
+      let snapshot = await this.weeklySnapshots?.getById(userId, startDate, endDate)
+
+      if (!snapshot) {
+        // Create a new snapshot with default values
+        await this.weeklySnapshots?.createOrUpdate(
+          userId,
+          startDate,
+          endDate,
+          0, // numberOfSets
+          0, // totalVolume
+          0, // totalWorkoutTime
+          0 // completedWorkoutId
+        )
+
+        // Fetch the newly created snapshot
+        snapshot = await this.weeklySnapshots?.getById(userId, startDate, endDate)
+      }
+
+      if (!snapshot) {
+        throw new Error('Failed to create or retrieve weekly snapshot')
+      }
+
+      return snapshot
     } catch (error) {
       throw new Error(
-        `An error occurred while getting a weekly snapshot: ${(error as Error).message}`
+        `An error occurred while getting or creating a weekly snapshot: ${(error as Error).message}`
       )
     }
   }

@@ -41,7 +41,7 @@ describe('WeeklySnapshotsService', () => {
   })
 
   describe('getWeeklySnapshotById', () => {
-    it('should return a weekly snapshot', async () => {
+    it('should return an existing weekly snapshot', async () => {
       const mockSnapshot: WeeklySnapShot = {
         userId: 'user1',
         startDate: new Date('2023-05-08'),
@@ -60,13 +60,42 @@ describe('WeeklySnapshotsService', () => {
       expect(mockGetById).toHaveBeenCalledWith('user1', expect.any(Date), expect.any(Date))
     })
 
-    it('should return null if no snapshot is found', async () => {
+    it('should create and return a new snapshot if none exists', async () => {
       const mockGetById = jest.spyOn(WeeklySnapshotModel.prototype, 'getById')
-      mockGetById.mockResolvedValue(null)
+      mockGetById.mockResolvedValueOnce(null).mockResolvedValueOnce({
+        userId: 'user1',
+        startDate: expect.any(Date),
+        endDate: expect.any(Date),
+        numberOfSets: 0,
+        totalVolume: 0,
+        totalWorkoutTime: 0,
+        completedWorkoutIds: [],
+      })
+
+      const mockCreateOrUpdate = jest.spyOn(WeeklySnapshotModel.prototype, 'createOrUpdate')
+      mockCreateOrUpdate.mockResolvedValue(undefined)
 
       const result = await service.getWeeklySnapshotById('user1')
 
-      expect(result).toBeNull()
+      expect(result).toEqual({
+        userId: 'user1',
+        startDate: expect.any(Date),
+        endDate: expect.any(Date),
+        numberOfSets: 0,
+        totalVolume: 0,
+        totalWorkoutTime: 0,
+        completedWorkoutIds: [],
+      })
+      expect(mockGetById).toHaveBeenCalledTimes(2)
+      expect(mockCreateOrUpdate).toHaveBeenCalledWith(
+        'user1',
+        expect.any(Date),
+        expect.any(Date),
+        0,
+        0,
+        0,
+        0
+      )
     })
 
     it('should handle database errors when fetching snapshot', async () => {
@@ -75,7 +104,19 @@ describe('WeeklySnapshotsService', () => {
         .mockRejectedValue(new Error('Database error'))
 
       await expect(service.getWeeklySnapshotById('user1')).rejects.toThrow(
-        'An error occurred while getting a weekly snapshot: Database error'
+        'An error occurred while getting or creating a weekly snapshot: Database error'
+      )
+    })
+
+    it('should throw an error if creation fails', async () => {
+      const mockGetById = jest.spyOn(WeeklySnapshotModel.prototype, 'getById')
+      mockGetById.mockResolvedValue(null)
+
+      const mockCreateOrUpdate = jest.spyOn(WeeklySnapshotModel.prototype, 'createOrUpdate')
+      mockCreateOrUpdate.mockRejectedValue(new Error('Creation error'))
+
+      await expect(service.getWeeklySnapshotById('user1')).rejects.toThrow(
+        'An error occurred while getting or creating a weekly snapshot: Creation error'
       )
     })
   })
@@ -102,12 +143,24 @@ describe('WeeklySnapshotsService', () => {
       })
     })
 
-    it('should return null if no snapshot is found', async () => {
-      jest.spyOn(service, 'getWeeklySnapshotById').mockResolvedValue(null)
+    it('should return default values if no existing snapshot', async () => {
+      jest.spyOn(service, 'getWeeklySnapshotById').mockResolvedValue({
+        userId: 'user1',
+        startDate: expect.any(Date),
+        endDate: expect.any(Date),
+        numberOfSets: 0,
+        totalVolume: 0,
+        totalWorkoutTime: 0,
+        completedWorkoutIds: [],
+      })
 
       const result = await service.getWeeklySnapshotDisplayData('user1')
 
-      expect(result).toBeNull()
+      expect(result).toEqual({
+        numberOfSets: 0,
+        totalVolume: 0,
+        totalWorkoutTime: 0,
+      })
     })
   })
 
@@ -198,7 +251,7 @@ describe('WeeklySnapshotsService', () => {
       const mockCreateOrUpdate = jest.spyOn(WeeklySnapshotModel.prototype, 'createOrUpdate')
       mockCreateOrUpdate.mockResolvedValue(undefined)
 
-      const largeDataset = Array(1000)
+      const largeDataset = Array(100000)
         .fill(null)
         .map((_, index) => ({
           userId: `user${index}`,
@@ -223,8 +276,8 @@ describe('WeeklySnapshotsService', () => {
       const endTime = Date.now()
       const executionTime = endTime - startTime
 
-      expect(executionTime).toBeLessThan(5000) // Assuming 5 seconds is an acceptable time
-      expect(mockCreateOrUpdate).toHaveBeenCalledTimes(1000)
+      expect(executionTime).toBeLessThan(2000)
+      expect(mockCreateOrUpdate).toHaveBeenCalledTimes(100000)
     })
   })
 })
