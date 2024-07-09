@@ -16,6 +16,8 @@ model CompletedWorkouts {
   caloriesBurned Int?
   primaryMuscleGroup String
   totalVolume Int?
+  totalTime Int
+  totalSets Int?
 
   User Users @relation(fields: [userId], references: [userId])
 }

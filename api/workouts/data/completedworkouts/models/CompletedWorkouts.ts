@@ -12,6 +12,8 @@ export interface CompletedWorkoutsCreateParams {
   caloriesBurned: number | null
   primaryMuscleGroup: string
   totalVolume: number | null
+  totalTime: number
+  totalSets: number | null
 }
 
 export class CompletedWorkouts {
@@ -26,6 +28,8 @@ export class CompletedWorkouts {
       caloriesBurned,
       primaryMuscleGroup,
       totalVolume,
+      totalTime,
+      totalSets,
     } = completedWorkoutParams
 
     try {
@@ -48,6 +52,8 @@ export class CompletedWorkouts {
           primaryMuscleGroup: primaryMuscleGroup,
           caloriesBurned: caloriesBurned,
           totalVolume: totalVolume,
+          totalTime: totalTime,
+          totalSets: totalSets,
         },
       })
     } catch (error) {
