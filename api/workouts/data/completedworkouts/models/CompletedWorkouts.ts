@@ -4,13 +4,13 @@ const prisma = new PrismaClient()
 export interface CompletedWorkoutsCreateParams {
   userId: string
   comment: string | null
-  userExercises: number[]
+  exercises: number[]
   minHeartRate: number | null
   maxHeartRate: number | null
   duration: number
   workoutTitle: string
   caloriesBurned: number | null
-  primaryMuscleGroup: string
+  primaryMuscleGroups: string
   totalVolume: number | null
   totalTime: number
   totalSets: number | null
@@ -20,15 +20,14 @@ export class CompletedWorkouts {
   async create(userId: string, completedWorkoutParams: CompletedWorkoutsCreateParams) {
     const {
       comment,
-      userExercises,
+      exercises,
       minHeartRate,
       maxHeartRate,
       duration,
       workoutTitle,
       caloriesBurned,
-      primaryMuscleGroup,
+      primaryMuscleGroups,
       totalVolume,
-      totalTime,
       totalSets,
     } = completedWorkoutParams
 
@@ -38,21 +37,20 @@ export class CompletedWorkouts {
           User: {
             connect: { userId: userId },
           },
-          userExercises: {
-            connect: userExercises.map(userExerciseId => ({
-              userExerciseId: userExerciseId,
+          exercises: {
+            connect: exercises.map(exerciseId => ({
+              exerciseId: exerciseId,
             })),
           },
-          userExerciseIds: userExercises,
+          exerciseIds: exercises,
           comment: comment,
           minHeartRate: minHeartRate,
           maxHeartRate: maxHeartRate,
           duration: duration,
           workoutTitle: workoutTitle,
-          primaryMuscleGroup: primaryMuscleGroup,
+          primaryMuscleGroups: primaryMuscleGroups,
           caloriesBurned: caloriesBurned,
           totalVolume: totalVolume,
-          totalTime: totalTime,
           totalSets: totalSets,
         },
       })

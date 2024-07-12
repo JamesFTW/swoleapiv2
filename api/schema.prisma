@@ -44,6 +44,7 @@ model Exercises {
 
   userExercises            UserExercises[]
   templateworkoutexercises TemplateWorkoutExercises[]
+  completedWorkouts        CompletedWorkouts[]
 }
 
 //
@@ -61,9 +62,7 @@ model UserExercises {
   user     Users     @relation(fields: [userId], references: [userId])
   exercise Exercises @relation(fields: [exerciseId], references: [exerciseId])
 
-  UserExerciseSets                    UserExerciseSets[]
-  CompletedWorkouts                   CompletedWorkouts? @relation(fields: [completedWorkoutsCompletedWorkoutId], references: [completedWorkoutId])
-  completedWorkoutsCompletedWorkoutId Int?
+  UserExerciseSets UserExerciseSets[]
 
   @@unique(name: "exerciseId_userId", fields: [exerciseId, userId])
   @@index([userId])
@@ -119,22 +118,21 @@ model Users {
 //
 
 model CompletedWorkouts {
-  completedWorkoutId Int             @id @unique @default(autoincrement())
-  userId             String
-  comment            String?
-  userExercises      UserExercises[] @relation
-  userExerciseIds    Int[]
-  createdAt          DateTime        @default(now())
-  updatedAt          DateTime        @updatedAt
-  minHeartRate       Int?
-  maxHeartRate       Int?
-  duration           Int
-  workoutTitle       String
-  caloriesBurned     Int?
-  primaryMuscleGroup String
-  totalVolume        Int?
-  totalTime          Int
-  totalSets          Int?
+  completedWorkoutId  Int         @id @unique @default(autoincrement())
+  userId              String
+  comment             String?
+  exercises           Exercises[] @relation
+  exerciseIds         Int[]
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  minHeartRate        Int?
+  maxHeartRate        Int?
+  duration            Int
+  workoutTitle        String
+  caloriesBurned      Int?
+  primaryMuscleGroups String[]
+  totalVolume         Int?
+  totalSets           Int?
 
   User                             Users            @relation(fields: [userId], references: [userId])
   WeeklySnapshots                  WeeklySnapshots? @relation(fields: [weeklySnapshotsWeeklySnapshotsId], references: [weeklySnapshotsId])

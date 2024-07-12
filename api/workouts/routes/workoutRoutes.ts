@@ -55,7 +55,7 @@ router.post('/createCompletedWorkout', authenticate, async (req: Request, res: R
 
     await completedWorkouts.create(userId, completedWorkoutParams)
 
-    res.sendStatus(200)
+    res.status(200).json({ message: 'Workout completed successfully' })
   } catch (error: any) {
     res.status(500).json({
       message: 'Something went wrong creating a new completed workout.',

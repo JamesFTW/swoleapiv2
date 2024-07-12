@@ -1,5 +1,6 @@
 import { UserExercises } from "../userexercises/UserExercises"
 import { TemplateWorkoutExercises } from "../workouts/data/templateworkouts/templateworkoutexercises/TemplateWorkoutExercises"
+import { CompletedWorkouts } from "../workouts/data/completedworkouts/CompletedWorkouts"
 
 model Exercises {
   exerciseId Int @id @unique @default(autoincrement())
@@ -12,4 +13,5 @@ model Exercises {
 
   userExercises UserExercises[]
   templateworkoutexercises TemplateWorkoutExercises[]
+  completedWorkouts CompletedWorkouts[]
 }
