@@ -110,7 +110,7 @@ model Users {
   userExerciseSets  UserExerciseSets[]
   scheduledWorkouts ScheduledWorkouts[]
   completedWorkouts CompletedWorkouts[]
-  WeeklySnapshots   WeeklySnapshots[]
+  weeklySnapshots   WeeklySnapshots[]
 }
 
 //
@@ -134,9 +134,8 @@ model CompletedWorkouts {
   totalVolume         Int?
   totalSets           Int?
 
-  User                             Users            @relation(fields: [userId], references: [userId])
-  WeeklySnapshots                  WeeklySnapshots? @relation(fields: [weeklySnapshotsWeeklySnapshotsId], references: [weeklySnapshotsId])
-  weeklySnapshotsWeeklySnapshotsId String?
+  User            Users             @relation(fields: [userId], references: [userId])
+  weeklySnapshots WeeklySnapshots[]
 }
 
 //

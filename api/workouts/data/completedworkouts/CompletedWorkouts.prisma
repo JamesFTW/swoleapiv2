@@ -1,6 +1,7 @@
 import { Users } from "../../../users/Users"
 import { UserExercises, UserExercises } from "../../../userexercises/UserExercises"
 import { Exercises } from "../../../exercises/Exercises"
+import { WeeklySnapshots } from "../../snapshots/WeeklySnapshots"
 
 model CompletedWorkouts {
   completedWorkoutId Int @id @unique @default(autoincrement())
@@ -20,4 +21,5 @@ model CompletedWorkouts {
   totalSets Int?
 
   User Users @relation(fields: [userId], references: [userId])
+  weeklySnapshots WeeklySnapshots[]
 }

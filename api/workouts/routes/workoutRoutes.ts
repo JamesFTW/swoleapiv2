@@ -10,11 +10,12 @@ router.post('/createOrUpdateSnapshot', authenticate, async (req: Request, res: R
 
   try {
     const { userId } = req.session?.passport?.user
-    const { numberOfSets, totalVolume, totalWorkoutTime, completedWorkoutId } = req.body
+    const { totalSets, totalVolume, totalWorkoutTime, completedWorkoutId } =
+      req.body.weeklySnapshotParams
 
     await weeklySnapshot.createOrUpdateWeeklySnapshot(
       userId,
-      numberOfSets,
+      totalSets,
       totalVolume,
       totalWorkoutTime,
       completedWorkoutId
@@ -53,9 +54,9 @@ router.post('/createCompletedWorkout', authenticate, async (req: Request, res: R
     const { userId } = req.session?.passport?.user
     const { completedWorkoutParams } = req.body
 
-    await completedWorkouts.create(userId, completedWorkoutParams)
+    const completedWorkoutData = await completedWorkouts.create(userId, completedWorkoutParams)
 
-    res.status(200).json({ message: 'Workout completed successfully' })
+    res.status(200).json({ completedWorkoutData })
   } catch (error: any) {
     res.status(500).json({
       message: 'Something went wrong creating a new completed workout.',

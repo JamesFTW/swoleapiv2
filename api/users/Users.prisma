@@ -3,6 +3,7 @@ import { UserExerciseSets } from "../userexercises/UserExerciseSets"
 import { TemplateWorkouts} from "../workouts/data/templateworkouts/TemplateWorkouts"
 import { ScheduledWorkouts } from "../workouts/data/scheduledworkouts/ScheduledWorkouts"
 import { CompletedWorkouts } from "../workouts/data/completedworkouts/CompletedWorkouts"
+import { WeeklySnapshots } from "../workouts/snapshots/WeeklySnapshots"
 
 model Users {
   profilePhoto String?
@@ -22,4 +23,5 @@ model Users {
   userExerciseSets UserExerciseSets[]
   scheduledWorkouts ScheduledWorkouts[]
   completedWorkouts CompletedWorkouts[]
+  weeklySnapshots WeeklySnapshots[]
 }

@@ -32,7 +32,7 @@ export class CompletedWorkouts {
     } = completedWorkoutParams
 
     try {
-      await prisma.completedWorkouts.create({
+      const completedWorkout = await prisma.completedWorkouts.create({
         data: {
           User: {
             connect: { userId: userId },
@@ -54,6 +54,8 @@ export class CompletedWorkouts {
           totalSets: totalSets,
         },
       })
+
+      return completedWorkout
     } catch (error) {
       throw error
     }
