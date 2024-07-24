@@ -6,6 +6,8 @@ model ScheduledWorkouts {
   templateId Int
   userId String
   workoutDate DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @db.Timestamp(6)
 
   user Users         @relation(fields: [userId], references: [userId])
   templateWorkouts TemplateWorkouts @relation(fields: [templateId], references: [templateId])
