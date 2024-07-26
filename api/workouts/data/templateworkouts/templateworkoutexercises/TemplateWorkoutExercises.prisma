@@ -2,10 +2,12 @@ import { TemplateWorkouts } from "../TemplateWorkouts"
 import { Exercises } from "../../../../exercises/Exercises"
 
 model TemplateWorkoutExercises {
-  templateId Int @id @default(autoincrement())
+  templateId Int
   exerciseId Int
   setData Json[]
 
   templateWorkout TemplateWorkouts @relation(fields: [templateId], references: [templateId])
   exercises Exercises @relation(fields: [exerciseId], references: [exerciseId])
+
+  @@id([templateId, exerciseId])
 }
