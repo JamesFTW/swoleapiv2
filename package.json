@@ -92,7 +92,8 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "prisma-import": "^1.0.4",
-    "sharp": "^0.33.3"
+    "sharp": "^0.33.3",
+    "zod": "^3.23.8"
   },
   "lint-staged": {
     "*.{js,ts,css,md}": "prettier --write"

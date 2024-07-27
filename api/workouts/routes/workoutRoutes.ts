@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import { authenticate } from '@middleware/authenticate'
 import { WeeklySnapshotsService } from '../snapshots/services/WeeklySnapshotsService'
 import { CompletedWorkoutsService } from '../data/completedworkouts/services/completedWorkoutsService'
+import { TemplateWorkoutsService } from '../data/templateworkouts/services/templateWorkoutsService'
 
 const router = express.Router()
 
@@ -60,6 +61,28 @@ router.post('/createCompletedWorkout', authenticate, async (req: Request, res: R
   } catch (error: any) {
     res.status(500).json({
       message: 'Something went wrong creating a new completed workout.',
+      error: error.message,
+    })
+  }
+})
+
+router.post('/createTemplateWorkout', authenticate, async (req: Request, res: Response) => {
+  const templateWorkoutService = new TemplateWorkoutsService()
+
+  try {
+    const { userId } = req.session?.passport?.user
+    const { templateName, workoutData } = req.body
+
+    const templateWorkoutData = await templateWorkoutService.create({
+      userId,
+      templateName,
+      workoutData,
+    })
+
+    res.status(200).json({ templateWorkoutData })
+  } catch (error: any) {
+    res.status(500).json({
+      message: 'Something went wrong creating a new template workout.',
       error: error.message,
     })
   }
